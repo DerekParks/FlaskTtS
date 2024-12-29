@@ -169,3 +169,12 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+huey.db*
+style2tts_workdir/
+StyleTTS2-LJSpeech/
+Models/
+.DS_Store
+.direnv/
+.envrc

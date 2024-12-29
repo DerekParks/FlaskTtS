@@ -1,0 +1,10 @@
+services:
+  flasktts:
+    image: flasktts
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./huey.db:/FlaskTtS/huey.db
+      - ./style2tts_workdir:/FlaskTtS/style2tts_workdir
