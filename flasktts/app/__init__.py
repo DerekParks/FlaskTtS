@@ -1,5 +1,3 @@
-import os
-
 import paho.mqtt.client as mqtt
 from flask import Flask
 from flask_restx import Api
@@ -13,22 +11,16 @@ api = Api(
 )
 
 # Initialize Huey with SQLite storage
-huey = SqliteHuey("tts_tasks", filename="huey.db")
-
-# Get MQTT config from environment
-MQTT_HOST = os.getenv("MQTT_HOST")
-MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
-MQTT_TOPIC = os.getenv("MQTT_TOPIC", "task_events")
-MQTT_USER = os.getenv("MQTT_USER")
-MQTT_PASSWORD = os.getenv("MQTT_PASSWORD")
+huey = SqliteHuey("tts_tasks", filename=Config.HUEY_DB_PATH)
 
 # Only setup MQTT if host is configured
+# This is a temporory fix until I figure out SSEs
 mqtt_client = None
-if MQTT_HOST:
+if Config.MQTT_HOST:
     mqtt_client = mqtt.Client()
-    if MQTT_USER and MQTT_PASSWORD:
-        mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
-    mqtt_client.connect(MQTT_HOST, MQTT_PORT)
+    if Config.MQTT_USER and Config.MQTT_PASSWORD:
+        mqtt_client.username_pw_set(Config.MQTT_USER, Config.MQTT_PASSWORD)
+    mqtt_client.connect(Config.MQTT_HOST, Config.MQTT_PORT)
     mqtt_client.loop_start()
 
 

@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
-import os
-
 from flasktts.app import create_app
+from flasktts.config import Config
 
 app = create_app()
 
 if __name__ == "__main__":
-    env = os.getenv("FLASK_ENV")
-    port = os.getenv("PORT", 5001)
+    env = Config.FLASK_ENV
+    port = Config.PORT
     if env and env.lower().startswith("dev"):
         app.run(debug=True, host="0.0.0.0", port=port)
     else:

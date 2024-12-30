@@ -102,3 +102,14 @@ Style2TSS is also permissively licensed but depends on `espeak-ng`, which is GPL
 6. SSE and/or websockets for job status updates
 
 See companion project [Hoarder2Pod](https://github.com/DerekParks/Hoarder2Pod)
+
+## Hints for Building espeak-ng on OSX
+
+```bash
+git clone https://github.com/espeak-ng/espeak-ng
+cd espeak-ng
+brew install gcc@13
+CC=gcc-13 CXX=g++-13 ./configure CXXFLAGS="-std=c++11"
+make
+sudo make install # optional (maybe install to a virtualenv instead)
+```

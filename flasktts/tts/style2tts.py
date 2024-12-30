@@ -269,10 +269,15 @@ class Style2TTS:
 
         return output_path
 
-    def clean_up(self):
+    def cleanup(self, task_id=None):
         """Remove all files from the output directory"""
-        for file in os.listdir(self.output_dir):
-            os.remove(os.path.join(self.output_dir, file))
+        if task_id is not None:
+            for file in os.listdir(self.output_dir):
+                if task_id in file:
+                    os.remove(os.path.join(self.output_dir, file))
+        else:
+            for file in os.listdir(self.output_dir):
+                os.remove(os.path.join(self.output_dir, file))
 
 
 if __name__ == "__main__":

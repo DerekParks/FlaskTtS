@@ -4,7 +4,8 @@ import os
 from huey.signals import SIGNAL_COMPLETE, SIGNAL_ERROR
 from huey.utils import Error
 
-from flasktts.app import MQTT_TOPIC, huey, mqtt_client
+from flasktts.app import huey, mqtt_client
+from flasktts.config import Config
 from flasktts.tasks.ffmpeg import convert_wav_to_mp3
 from flasktts.tts.style2tts import Style2TTSHighlander
 
@@ -74,20 +75,36 @@ def cleanup():
     huey.flush()
 
 
+@huey.task()
+def cleanup_task(task_id: str):
+    """Huey task to clean up a specific task result.
+
+    Args:
+        task_id (str): Task ID to clean up
+
+    """
+    Style2TTSHighlander.get_instance().cleanup(task_id)
+    huey.get(task_id, peek=False)
+
+
 @huey.signal(SIGNAL_COMPLETE)
 def task_complete(signal, task):
     print(f"Task {task.id} completed")
+    cleanup_task.schedule(task.id, delay=Config.CLEANUP_TASKS_AFTER_SEC)
+
     if mqtt_client:
         message = json.dumps({"type": "complete", "task_id": task.id})
-        mqtt_client.publish(MQTT_TOPIC, message)
+        mqtt_client.publish(Config.MQTT_TOPIC, message)
 
 
 @huey.signal(SIGNAL_ERROR)
 def task_error(signal, task):
     print(f"Task {task.id} failed")
+    cleanup_task.schedule(task.id, delay=Config.CLEANUP_TASKS_AFTER_SEC)
+
     if mqtt_client:
-        message = json.dumps({"type": "error", "task_id": task.id, "error": str(exc)})
-        mqtt_client.publish(MQTT_TOPIC, message)
+        message = json.dumps({"type": "error", "task_id": task.id})
+        mqtt_client.publish(Config.MQTT_TOPIC, message)
 
 
 if __name__ == "__main__":
