@@ -8,3 +8,11 @@ services:
     volumes:
       - ./huey.db:/FlaskTtS/huey.db
       - ./style2tts_workdir:/FlaskTtS/style2tts_workdir
+    # Add the following lines to turn on GPU support
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
