@@ -1,13 +1,23 @@
+import os
+from glob import glob
+
 from flask import send_file
 from flask_restx import Namespace, Resource, fields
 
 from flasktts.app import huey
-from flasktts.tasks.tasks import cleanup, style2_tts_task
+from flasktts.config import Config
+from flasktts.tasks.tasks import (
+    cleanup,
+    get_tasks_pending_failed_complete_running,
+    style2_tts_task,
+)
 
 
 class JobStatus(fields.String):
     PENDING = "PENDING"
     COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    RUNNING = "RUNNING"
 
     def format(self, value):
         return str(value)
@@ -94,16 +104,41 @@ class TextToSpeechStatus(Resource):
     @api.marshal_with(job_status)
     def get(self, job_id):
         """Get the status of a text-to-speech job"""
-        pending_tasks = set([task.id for task in huey.pending()])
+        pending, failed, completed, running = (
+            get_tasks_pending_failed_complete_running()
+        )
 
-        if job_id in pending_tasks:
+        if job_id in pending:
             return {"status": JobStatus.PENDING}
 
-        job_results = huey.all_results()
-        if job_id in job_results:
+        if job_id in completed:
             return {"status": JobStatus.COMPLETED}
 
+        if job_id in failed:
+            return {"status": JobStatus.FAILED}
+
+        if job_id in running:
+            return {"status": JobStatus.RUNNING}
+
         api.abort(404, "Job not found")
+
+    @api.doc("delete_job", responses={204: "Job deleted successfully", 400: "Error"})
+    def delete(self, job_id):
+        """Delete a text-to-speech job"""
+        pending, failed, completed, running = (
+            get_tasks_pending_failed_complete_running()
+        )
+        if job_id in (failed + completed):
+            huey.get(job_id, peek=False)
+
+            for file in glob(f"{Config.STYLE_2_TTS_WORKDIR}/{job_id}.*"):
+                os.remove(file)
+
+        elif job_id in pending:
+            huey.revoke_by_id(job_id)
+        elif job_id in running:
+            return "Cancel not supported", 400
+        return "Job deleted", 204
 
 
 @api.route("/jobs/<string:job_id>/download")
@@ -122,8 +157,8 @@ class TextToSpeechDownload(Resource):
 
         Only available once the job status is COMPLETED
         """
-
-        if job_id not in huey.all_results().keys():
+        _, _, completed, _ = get_tasks_pending_failed_complete_running()
+        if job_id not in completed:
             api.abort(404, "Job not found")
 
         return send_file(
@@ -140,23 +175,37 @@ class TextToSpeechJobs(Resource):
     @api.marshal_with(jobs_list)
     def get(self):
         """Get a list of all text-to-speech jobs"""
-        pending_tasks = huey.pending()
-        job_results = huey.all_results()
-
+        pending, failed, completed, running = (
+            get_tasks_pending_failed_complete_running()
+        )
         return {
             "jobs": [
                 {
                     "job_id": task.id,
                     "status": JobStatus.PENDING,
                 }
-                for task in pending_tasks
+                for task in pending
             ]
             + [
                 {
                     "job_id": job_id,
                     "status": JobStatus.COMPLETED,
                 }
-                for job_id in job_results
+                for job_id in completed
+            ]
+            + [
+                {
+                    "job_id": job_id,
+                    "status": JobStatus.FAILED,
+                }
+                for job_id in failed
+            ]
+            + [
+                {
+                    "job_id": job_id,
+                    "status": JobStatus.RUNNING,
+                }
+                for job_id in running
             ]
         }
 

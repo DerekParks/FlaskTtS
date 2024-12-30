@@ -23,6 +23,8 @@ from styletts2.text_utils import TextCleaner
 from styletts2.utils import *
 from styletts2.Utils.PLBERT.util import load_plbert
 
+from flasktts.config import Config
+
 
 class Style2TTSHighlander:
     _instance = None
@@ -30,7 +32,7 @@ class Style2TTSHighlander:
     @classmethod
     def get_instance(cls):
         if cls._instance is None:
-            cls._instance = Style2TTS("style2tts_workdir")
+            cls._instance = Style2TTS(Config.STYLE_2_TTS_WORKDIR)
         return cls._instance
 
 
