@@ -2,9 +2,9 @@ name: Continuous Delivery
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 jobs:
   build:
@@ -37,4 +37,4 @@ jobs:
           file: ./Dockerfile
           target: final
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ toLowerCase(env.IMAGE_NAME) }}:latest
