@@ -1,6 +1,6 @@
 services:
   flasktts:
-    image: ghcr.io/DerekParks/flasktts:latest
+    image: ghcr.io/derekparks/flasktts:latest
     container_name: flasktts
     restart: unless-stopped
     ports:
