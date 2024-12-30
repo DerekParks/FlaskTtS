@@ -50,15 +50,15 @@ if status.json()['status'] == 'COMPLETED':
 
 ### Installation & Setup
 
-1. Clone the repository:
+1. Get the compose file:
 ```bash
-git clone <repository-url>
-cd FlaskTtS
+mkdir FlaskTtS && cd FlaskTtS
+wget https://raw.githubusercontent.com/DerekParks/FlaskTtS/refs/heads/main/docker-compose.yaml
 ```
 
-2. Build and start the Docker container:
+2. Start the Docker container:
 ```bash
-docker-compose up --build
+docker compose up
 ```
 
 3. The service will be available at `http://localhost:5001`

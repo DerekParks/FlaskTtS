@@ -36,4 +36,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/flasktts:latest
+          tags: ${{ env.REGISTRY }}/derekparks/flasktts:latest
