@@ -178,6 +178,7 @@ class TextToSpeechJobs(Resource):
         pending, failed, completed, running = (
             get_tasks_pending_failed_complete_running()
         )
+
         return {
             "jobs": [
                 {

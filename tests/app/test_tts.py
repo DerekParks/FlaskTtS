@@ -1,7 +1,7 @@
-import io
 from unittest.mock import MagicMock, patch
 
 import pytest
+from flask import Response
 from huey.api import Result
 
 
@@ -19,7 +19,7 @@ def client(app):
 
 @pytest.fixture
 def mock_huey():
-    with patch("flasktts.app.tts.huey") as mock:
+    with patch("flasktts.tasks.tasks.huey") as mock:
         mock.pending.return_value = []
         mock.all_results.return_value = {}
         yield mock
@@ -49,10 +49,7 @@ class TestTextToSpeechStatus:
     def test_get_job_status_pending(self, client, mock_huey):
         # Arrange
         job_id = "pending-job"
-        mock_task = MagicMock()
-        mock_task.id = job_id
-        mock_huey.pending.return_value = [mock_task]
-
+        mock_huey.pending.return_value = [job_id]
         # Act
         response = client.get(f"/tts/jobs/{job_id}")
 
@@ -64,7 +61,7 @@ class TestTextToSpeechStatus:
         # Arrange
         job_id = "completed-job"
         mock_huey.all_results.return_value = {job_id: "result"}
-
+        mock_huey.get.return_value = "result"
         # Act
         response = client.get(f"/tts/jobs/{job_id}")
 
@@ -84,12 +81,16 @@ class TestTextToSpeechDownload:
     def test_download_completed_job(self, client, mock_huey):
         # Arrange
         job_id = "completed-job"
-        mock_audio = io.BytesIO(b"fake audio data")
+        mock_audio = "fake audio data"
         mock_huey.all_results.return_value = {job_id: mock_audio}
         mock_huey.get.return_value = mock_audio
 
-        # Act
-        response = client.get(f"/tts/jobs/{job_id}/download")
+        with patch("flasktts.app.tts.send_file") as mock_send_file:
+            mock_send_file.return_value = Response(
+                "fake audio data", content_type="audio/mpeg"
+            )
+            # Act
+            response = client.get(f"/tts/jobs/{job_id}/download")
 
         # Assert
         assert response.status_code == 200
@@ -110,6 +111,7 @@ class TestTextToSpeechJobs:
         pending_task.id = "pending-job"
         mock_huey.pending.return_value = [pending_task]
         mock_huey.all_results.return_value = {"completed-job": "result"}
+        mock_huey.get.return_value = "result"
 
         # Act
         response = client.get("/tts/jobs")
