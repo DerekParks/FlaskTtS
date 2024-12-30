@@ -99,5 +99,6 @@ Style2TSS is also permissively licensed but depends on `espeak-ng`, which is GPL
 3. Give up on Huey and rewrite the whole thing with Celery?
 4. CI/CD pipeline
 5. Add more tests
+6. SSE and/or websockets for job status updates
 
 See companion project [Hoarder2Pod](https://github.com/DerekParks/Hoarder2Pod)
