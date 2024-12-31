@@ -41,11 +41,11 @@ class Style2TTS:
         if device is not None:
             self.device = device
         elif torch.cuda.is_available():
-            device = torch.device("cuda")
+            self.device = torch.device("cuda")
         elif torch.backends.mps.is_available():
-            device = torch.device("mps")
+            self.device = torch.device("mps")
         else:
-            device = torch.device("cpu")
+            self.device = torch.device("cpu")
 
         print(f"Starting TTS: {self.device} {torch.__version__}")
         self.output_dir = output_dir
