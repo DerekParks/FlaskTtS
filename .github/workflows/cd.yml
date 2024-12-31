@@ -5,9 +5,9 @@ on:
       - "main"
     tags:
       - "v*.*.*"
-    paths:
-      - "!*.md" # Do not trigger on markdown files changes
-      - "!docker-compose.yaml" # Do not trigger on docker compose changes (it is only for docs)
+    paths-ignore::
+      - "*.md" # Do not trigger on markdown files changes
+      - "docker-compose.yaml" # Do not trigger on docker compose changes (it is only for docs)
 
 jobs:
   build:
