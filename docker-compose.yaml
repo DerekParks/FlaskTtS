@@ -6,9 +6,10 @@ services:
     ports:
       - "5001:5001"
     volumes:
-      - ./huey.db:/FlaskTtS/huey.db
+      - ./db:/FlaskTtS/db/
       - ./style2tts_workdir:/FlaskTtS/style2tts_workdir
-    # Add the following lines to turn on GPU support
+    environment:
+      - HUEY_DB_PATH=/FlaskTtS/db/huey.db
     deploy:
       resources:
         reservations:

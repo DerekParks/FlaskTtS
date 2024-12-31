@@ -5,7 +5,14 @@ class Config:
     """FlaskTtS configuration class"""
 
     STYLE_2_TTS_WORKDIR = os.getenv("STYLE_2_TTS_WORKDIR", "style2tts_workdir")
-    HUEY_DB_PATH = os.getenv("HUEY_DB_PATH", "huey.db")
+    HUEY_DB_PATH = os.getenv("HUEY_DB_PATH", "db/huey.db")
+
+    if not os.path.exists(STYLE_2_TTS_WORKDIR):
+        os.makedirs(STYLE_2_TTS_WORKDIR)
+
+    huey_db_dir = os.path.dirname(HUEY_DB_PATH)
+    if not os.path.exists(huey_db_dir):
+        os.makedirs(huey_db_dir)
 
     # Get MQTT config from environment
     MQTT_HOST = os.getenv("MQTT_HOST")
