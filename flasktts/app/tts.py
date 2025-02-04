@@ -9,6 +9,7 @@ from flasktts.config import Config
 from flasktts.tasks.tasks import (
     cleanup,
     get_tasks_pending_failed_complete_running,
+    kokoro_tts_task,
     style2_tts_task,
 )
 
@@ -33,7 +34,17 @@ tts_request = api.model(
             required=True,
             description="Text to convert to speech",
             example="Hello world, this is a test of the text to speech system.",
-        )
+        ),
+        "model": fields.String(
+            description="Model to use for text-to-speech",
+            example="style2tts",
+            default="style2tts",
+        ),
+        "voice": fields.String(
+            description="Voice to use for text-to-speech",
+            example="af_heart",
+            default=None,
+        ),
     },
 )
 
@@ -91,7 +102,15 @@ class TextToSpeechJob(Resource):
         if not text:
             api.abort(400, "Missing or empty 'text' parameter")
 
-        result = style2_tts_task(text)
+        model = api.payload.get("model")
+        if model == "style2tts":
+            result = style2_tts_task(text)
+        elif model == "kokoro":
+            voice = api.payload.get("voice")
+            result = kokoro_tts_task(text, voice)
+        else:
+            api.abort(400, "Invalid 'model' parameter")
+
         return {"job_id": result.id}, 202
 
 
@@ -131,7 +150,7 @@ class TextToSpeechStatus(Resource):
         if job_id in (failed + completed):
             huey.get(job_id, peek=False)
 
-            for file in glob(f"{Config.STYLE_2_TTS_WORKDIR}/{job_id}.*"):
+            for file in glob(f"{Config.TTS_WORKDIR}/{job_id}.*"):
                 os.remove(file)
 
         elif job_id in pending:

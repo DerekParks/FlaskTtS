@@ -6,13 +6,14 @@ from huey.utils import Error
 
 from flasktts.app import huey, mqtt_client
 from flasktts.config import Config
-from flasktts.tasks.ffmpeg import convert_wav_to_mp3
+from flasktts.tasks.ffmpeg import convert_wav_dir_to_mp3, convert_wav_to_mp3
+from flasktts.tts.kokorotts import KokoroTTSHighlander
 from flasktts.tts.style2tts import Style2TTSHighlander
 
 
-def get_tasks_pending_failed_complete_running() -> (
-    tuple[list[str], list[str], list[str], list[str]]
-):
+def get_tasks_pending_failed_complete_running() -> tuple[
+    list[str], list[str], list[str], list[str]
+]:
     """Get all tasks in the Huey task queue.
 
     Returns:
@@ -56,13 +57,33 @@ def style2_tts_task(text: str, task=None):
 
     Args:
         text (str): Text to convert to speech
-        task (Huey task): Huey task object (default: None)
+        task (Huey task): Huey task object, will be passed by Huey (default: None)
 
     """
     huey.put("gpu-lock-running", task.id)
 
     output_wav = Style2TTSHighlander.get_instance().synth_text(text, task.id)
     output_mp3 = convert_wav_to_mp3(output_wav)
+
+    huey.get("gpu-lock-running", peek=False)
+    return os.path.abspath(output_mp3)
+
+
+@huey.task(context=True)
+@huey.lock_task("gpu-lock")
+def kokoro_tts_task(text: str, voice: str, task=None):
+    """Huey task for Kokoro text-to-speech conversion.
+
+    Args:
+        text (str): Text to convert to speech
+        voice (str): Voice to use for synthesis
+        task (Huey task): Huey task object, will be passed by Huey (default: None)
+
+    """
+    huey.put("gpu-lock-running", task.id)
+
+    output_wav_dir = KokoroTTSHighlander.get_instance().synth_text(text, task.id, voice)
+    output_mp3 = convert_wav_dir_to_mp3(output_wav_dir)
 
     huey.get("gpu-lock-running", peek=False)
     return os.path.abspath(output_mp3)

@@ -6,3 +6,5 @@ phonemizer==3.3.0
 styletts2 @ git+https://github.com/sidharthrajaram/StyleTTS2@cf48b82718c38ad872cd3c7189714fe93928ca5f
 torchaudio==2.5.1
 waitress==3.0.2
+kokoro>=0.3.5
+soundfile

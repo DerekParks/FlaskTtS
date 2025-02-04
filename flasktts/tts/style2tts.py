@@ -4,6 +4,7 @@ import random
 import re
 import sys
 from itertools import chain
+from typing import Optional
 
 import librosa
 import numpy as np
@@ -32,12 +33,19 @@ class Style2TTSHighlander:
     @classmethod
     def get_instance(cls):
         if cls._instance is None:
-            cls._instance = Style2TTS(Config.STYLE_2_TTS_WORKDIR)
+            cls._instance = Style2TTS(Config.TTS_WORKDIR)
         return cls._instance
 
 
 class Style2TTS:
-    def __init__(self, output_dir, device=None):
+    def __init__(self, output_dir: str, device: Optional[str] = None):
+        """
+        Initialize the Style2TTS model
+
+        Args:
+            output_dir (str): Output directory for generated audio files
+            device (str, optional): Device to use for inference. Defaults to None for auto-detect.
+        """
         if device is not None:
             self.device = device
         elif torch.cuda.is_available():
@@ -252,7 +260,17 @@ class Style2TTS:
             wav, self.s_prev = self.long_form_inference(text, self.s_prev, noise)
             yield wav
 
-    def synth_text(self, text, uuid):
+    def synth_text(self, text: str, uuid: str) -> str:
+        """Synthesize text to speech
+
+        Args:
+            text (str): Text to synthesize
+            uuid (str): Unique identifier for the job
+
+        Returns:
+            str: Output path where the generated audio files
+        """
+
         output_path = os.path.join(self.output_dir, f"{uuid}.wav")
         all_wavs = []
 

@@ -102,7 +102,7 @@ Style2TSS is also permissively licensed but depends on `espeak-ng`, which is GPL
 6. SSE and/or websockets for job status updates
 7. Some type of UI other than Swagger, possible alpline.js.
 
-See companion project [Hoarder2Pod](https://github.com/DerekParks/Hoarder2Pod)
+See companion project [Hoarder2Pod](https://github.com/DerekParks/HoarderToPod)
 
 ## Hints for Building espeak-ng on OSX
 

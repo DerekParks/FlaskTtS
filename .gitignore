@@ -178,3 +178,4 @@ Models/
 .DS_Store
 .direnv/
 .envrc
+.aider*
