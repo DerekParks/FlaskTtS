@@ -31,8 +31,10 @@ class TestTextToSpeechJob:
         mock_result = create_mock_result(mock_huey)
         with patch("flasktts.app.tts.style2_tts_task", return_value=mock_result):
             # Act
-            response = client.post("/tts/synthesize", json={"text": "Test text"})
-
+            response = client.post(
+                "/tts/synthesize", json={"text": "Test text", "model": "style2tts"}
+            )
+            print(response)
             # Assert
             assert response.status_code == 202
             assert response.json == {"job_id": "test-job-id"}

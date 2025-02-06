@@ -39,6 +39,7 @@ tts_request = api.model(
             description="Model to use for text-to-speech",
             example="style2tts",
             default="style2tts",
+            required=False,
         ),
         "voice": fields.String(
             description="Voice to use for text-to-speech",
@@ -103,6 +104,7 @@ class TextToSpeechJob(Resource):
             api.abort(400, "Missing or empty 'text' parameter")
 
         model = api.payload.get("model")
+
         if model == "style2tts":
             result = style2_tts_task(text)
         elif model == "kokoro":

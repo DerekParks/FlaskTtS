@@ -111,7 +111,7 @@ def cleanup_task(task_id: str):
 @huey.signal(SIGNAL_COMPLETE)
 def task_complete(signal, task):
     print(f"Task {task.id} completed")
-    cleanup_task.schedule(task.id, delay=Config.CLEANUP_TASKS_AFTER_SEC)
+    cleanup_task.schedule(args=(task.id,), delay=Config.CLEANUP_TASKS_AFTER_SEC)
 
     if mqtt_client:
         message = json.dumps({"type": "complete", "task_id": task.id})
@@ -121,7 +121,7 @@ def task_complete(signal, task):
 @huey.signal(SIGNAL_ERROR)
 def task_error(signal, task, exc=None):
     print(f"Task {task.id} failed, {exc}")
-    cleanup_task.schedule(task.id, delay=Config.CLEANUP_TASKS_AFTER_SEC)
+    cleanup_task.schedule(args=(task.id,), delay=Config.CLEANUP_TASKS_AFTER_SEC)
 
     if mqtt_client:
         message = json.dumps({"type": "error", "task_id": task.id})
