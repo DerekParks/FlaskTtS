@@ -8,6 +8,7 @@ services:
     volumes:
       - ./db:/FlaskTtS/db/
       - ./style2tts_workdir:/FlaskTtS/style2tts_workdir
+      - ./huggingface:/root/.cache/huggingface/
     environment:
       - HUEY_DB_PATH=/FlaskTtS/db/huey.db
     deploy:
