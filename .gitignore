@@ -179,3 +179,4 @@ Models/
 .direnv/
 .envrc
 .aider*
+.claude/
