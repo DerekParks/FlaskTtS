@@ -10,6 +10,7 @@ from flasktts.tasks.tasks import (
     cleanup,
     get_tasks_pending_failed_complete_running,
     kokoro_tts_task,
+    qwen3_tts_task,
     style2_tts_task,
 )
 
@@ -36,13 +37,13 @@ tts_request = api.model(
             example="Hello world, this is a test of the text to speech system.",
         ),
         "model": fields.String(
-            description="Model to use for text-to-speech",
+            description="Model to use for text-to-speech (style2tts, kokoro, qwen3)",
             example="style2tts",
             default="style2tts",
             required=False,
         ),
         "voice": fields.String(
-            description="Voice to use for text-to-speech",
+            description="Voice to use for text-to-speech (kokoro: af_heart, qwen3: Chelsie/Aidan/Aria/Benjamin/Candela/Ethan/Harper/Serena/William)",
             example="af_heart",
             default=None,
         ),
@@ -110,6 +111,8 @@ class TextToSpeechJob(Resource):
         elif model == "kokoro":
             voice = api.payload.get("voice")
             result = kokoro_tts_task(text, voice)
+        elif model == "qwen3":
+            result = qwen3_tts_task(text)
         else:
             api.abort(400, "Invalid 'model' parameter")
 

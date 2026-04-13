@@ -36,9 +36,12 @@ RUN pip3 install -I git+https://github.com/thewh1teagle/phonemizer-fork.git@dev
 COPY entrypoint.sh /FlaskTtS/
 RUN chmod +x /FlaskTtS/entrypoint.sh
 
+ADD voices /FlaskTtS/voices
 ADD pyproject.toml /FlaskTtS/pyproject.toml
 ADD flasktts/ /FlaskTtS/flasktts
 
 RUN pip3 install -e .
+# qwen-tts needs newer accelerate/transformers than styletts2 pins; install last to override
+RUN pip3 install qwen-tts
 
 CMD ["/FlaskTtS/entrypoint.sh"]

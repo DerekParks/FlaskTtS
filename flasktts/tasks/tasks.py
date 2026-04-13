@@ -8,6 +8,7 @@ from flasktts.app import huey, mqtt_client
 from flasktts.config import Config
 from flasktts.tasks.ffmpeg import convert_wav_dir_to_mp3, convert_wav_to_mp3
 from flasktts.tts.kokorotts import KokoroTTSHighlander
+from flasktts.tts.qwen3tts import Qwen3TTSHighlander
 from flasktts.tts.style2tts import Style2TTSHighlander
 
 
@@ -84,6 +85,25 @@ def kokoro_tts_task(text: str, voice: str, task=None):
 
     output_wav_dir = KokoroTTSHighlander.get_instance().synth_text(text, task.id, voice)
     output_mp3 = convert_wav_dir_to_mp3(output_wav_dir)
+
+    huey.get("gpu-lock-running", peek=False)
+    return os.path.abspath(output_mp3)
+
+
+@huey.task(context=True)
+@huey.lock_task("gpu-lock")
+def qwen3_tts_task(text: str, task=None):
+    """Huey task for Qwen3-TTS text-to-speech conversion (voice-cloned).
+
+    Args:
+        text (str): Text to convert to speech
+        task (Huey task): Huey task object, will be passed by Huey (default: None)
+
+    """
+    huey.put("gpu-lock-running", task.id)
+
+    output_wav = Qwen3TTSHighlander.get_instance().synth_text(text, task.id)
+    output_mp3 = convert_wav_to_mp3(output_wav)
 
     huey.get("gpu-lock-running", peek=False)
     return os.path.abspath(output_mp3)

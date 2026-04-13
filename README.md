@@ -2,7 +2,13 @@
 Simple Flask App for running Text-to-speech as a service
 
 Currently supports the following TTS engines:
-- [Style2TSS](https://github.com/yl4579/StyleTTS2)
+- [Style2TTS](https://github.com/yl4579/StyleTTS2)
+- [Kokoro](https://github.com/hexgrad/kokoro) (82M parameters, multiple voices)
+- [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) (0.6B parameters, voice cloning)
+
+## AI Disclosure
+
+Parts of this codebase were written with AI assistance (Claude). I use this project daily and review all AI-generated code before merging. I strive to keep the codebase clean, understandable, and something I can fully stand behind.
 
 ## API Endpoints
 
@@ -20,25 +26,50 @@ Once the service is running, you can access the Swagger UI documentation at:
 - `GET /tts/jobs` - List all jobs
 - `DELETE /tts/jobs` - Delete all jobs
 
-### Usage Example
+### Usage Examples
 
+#### Style2TTS (default)
+```bash
+curl -X POST http://localhost:5001/tts/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Hello, world!", "model": "style2tts"}'
+```
+
+#### Kokoro
+```bash
+curl -X POST http://localhost:5001/tts/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Hello, world!", "model": "kokoro", "voice": "af_heart"}'
+```
+
+#### Qwen3-TTS (voice cloned from Kokoro reference)
+```bash
+curl -X POST http://localhost:5001/tts/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Hello, world!", "model": "qwen3"}'
+```
+
+#### Polling for results (Python)
 ```python
 import requests
+import time
 
 # Create a new TTS job
 response = requests.post('http://localhost:5001/tts/synthesize',
-                        json={'text': 'Hello, world!'})
+                        json={'text': 'Hello, world!', 'model': 'qwen3'})
 job_id = response.json()['job_id']
 
-# Check job status
-status = requests.get(f'http://localhost:5001/tts/jobs/{job_id}')
-print(status.json())
+# Poll for completion
+while True:
+    status = requests.get(f'http://localhost:5001/tts/jobs/{job_id}')
+    if status.json()['status'] == 'COMPLETED':
+        break
+    time.sleep(1)
 
-# Download the audio file when completed
-if status.json()['status'] == 'COMPLETED':
-    audio = requests.get(f'http://localhost:5001/tts/jobs/{job_id}/download')
-    with open('output.mp3', 'wb') as f:
-        f.write(audio.content)
+# Download the audio file
+audio = requests.get(f'http://localhost:5001/tts/jobs/{job_id}/download')
+with open('output.mp3', 'wb') as f:
+    f.write(audio.content)
 ```
 
 ## Docker installation (recommended)
@@ -78,7 +109,7 @@ FLASK_ENV=dev python run.py
 
 To run the worker
 ```bash
-huey_consumer.py huey_consumer.py flasktts.tasks.tasks.huey -w 1
+huey_consumer.py flasktts.tasks.tasks.huey -w 1
 ```
 
 ## Configuration
@@ -90,12 +121,13 @@ The service can be configured through environment variables:
 ## License
 
 All my code is licensed under the MIT license. See the LICENSE file for more information.
-Style2TSS is also permissively licensed but depends on `espeak-ng`, which is GPL-licensed.
+Style2TTS is also permissively licensed but depends on `espeak-ng`, which is GPL-licensed.
+Qwen3-TTS is Apache 2.0 licensed. Kokoro is Apache 2.0 licensed.
 
 ## Roadmap (Todo)
 
 1. Replace `espeak-ng` with [OpenPhonomizer](https://github.com/NeuralVox/OpenPhonemizer)
-2. Add support for more TTS engines (e.g. Tortoise, Bark, etc.)
+2. ~~Add support for more TTS engines~~ Added Kokoro and Qwen3-TTS
 3. Give up on Huey and rewrite the whole thing with Celery?
 4. ~~CI/CD pipeline~~
 5. Add more tests
