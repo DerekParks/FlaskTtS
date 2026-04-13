@@ -1,5 +1,8 @@
+import gc
 import os
-from typing import Optional
+import re
+import time
+from typing import List, Optional
 
 import numpy as np
 import soundfile as sf
@@ -7,6 +10,10 @@ import torch
 from qwen_tts import Qwen3TTSModel
 
 from flasktts.config import Config
+
+# Target length per chunk in characters. Qwen3-TTS works best on short-ish
+# segments; long inputs cause very slow generation and higher memory.
+CHUNK_TARGET_CHARS = 500
 
 # Default reference voice: Kokoro af_heart cloned via Qwen3 Base model
 DEFAULT_REF_AUDIO = os.path.join(
@@ -97,8 +104,41 @@ class Qwen3TTS:
         # MPS crashes on Qwen3-TTS bf16 matmul ops — skip it
         return torch.device("cpu")
 
+    @staticmethod
+    def _chunk_text(text: str, target_chars: int = CHUNK_TARGET_CHARS) -> List[str]:
+        """Split text into chunks at sentence boundaries, close to target_chars each.
+
+        Long inputs cause very slow generation and memory pressure. Splitting at
+        sentence boundaries keeps prosody natural while bounding per-call work.
+        """
+        text = text.strip()
+        if not text:
+            return []
+
+        # Split into sentences (keeping the punctuation)
+        sentences = re.split(r"(?<=[.!?])\s+", text)
+        chunks: List[str] = []
+        current = ""
+        for sentence in sentences:
+            if not sentence:
+                continue
+            if not current:
+                current = sentence
+            elif len(current) + 1 + len(sentence) <= target_chars:
+                current = f"{current} {sentence}"
+            else:
+                chunks.append(current)
+                current = sentence
+        if current:
+            chunks.append(current)
+        return chunks
+
     def synth_text(self, text: str, uuid: str) -> str:
         """Synthesize text to speech using the pre-computed cloned voice.
+
+        The input is split into sentence-aligned chunks and generated one at a
+        time so a long article produces incremental progress, frees memory
+        between chunks, and keeps per-call work bounded.
 
         Args:
             text (str): Text to synthesize
@@ -109,16 +149,49 @@ class Qwen3TTS:
         """
         output_path = os.path.join(self.output_dir, f"{uuid}.wav")
 
-        # Generate audio using the cached voice clone prompt
-        audio_segments, sample_rate = self.model.generate_voice_clone(
-            text=text,
-            voice_clone_prompt=self.voice_prompt,
+        chunks = self._chunk_text(text)
+        if not chunks:
+            raise ValueError("Empty text passed to synth_text")
+
+        print(
+            f"Qwen3-TTS {uuid}: generating {len(chunks)} chunk(s) "
+            f"({sum(len(c) for c in chunks)} chars)"
         )
 
-        combined_audio = np.concatenate(audio_segments)
+        all_segments: List[np.ndarray] = []
+        sample_rate: Optional[int] = None
+        t0 = time.perf_counter()
+        for i, chunk in enumerate(chunks, start=1):
+            chunk_start = time.perf_counter()
+            segments, sr = self.model.generate_voice_clone(
+                text=chunk,
+                voice_clone_prompt=self.voice_prompt,
+            )
+            sample_rate = sr
+            all_segments.extend(segments)
+
+            # Free intermediate tensors between chunks to keep memory bounded
+            gc.collect()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+
+            chunk_audio_len = sum(len(s) for s in segments) / sr
+            elapsed = time.perf_counter() - chunk_start
+            print(
+                f"  chunk {i}/{len(chunks)}: {len(chunk)} chars -> "
+                f"{chunk_audio_len:.1f}s audio in {elapsed:.1f}s "
+                f"(RTF {elapsed / chunk_audio_len:.2f})"
+            )
+
+        combined_audio = np.concatenate(all_segments)
         sf.write(output_path, combined_audio, sample_rate)
 
-        print(f"Qwen3-TTS completed for {uuid}, output saved to {output_path}")
+        total = time.perf_counter() - t0
+        total_audio = len(combined_audio) / sample_rate
+        print(
+            f"Qwen3-TTS {uuid} complete: {total_audio:.1f}s audio in "
+            f"{total:.1f}s (RTF {total / total_audio:.2f}) -> {output_path}"
+        )
         return output_path
 
     def cleanup(self, task_id=None):

@@ -43,7 +43,7 @@ tts_request = api.model(
             required=False,
         ),
         "voice": fields.String(
-            description="Voice to use for text-to-speech (kokoro: af_heart, qwen3: Chelsie/Aidan/Aria/Benjamin/Candela/Ethan/Harper/Serena/William)",
+            description="Voice to use for text-to-speech (kokoro only, e.g. af_heart; qwen3 uses a pre-baked Kokoro-cloned voice and ignores this field)",
             example="af_heart",
             default=None,
         ),

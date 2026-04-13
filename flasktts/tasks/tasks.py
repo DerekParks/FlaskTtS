@@ -71,13 +71,13 @@ def style2_tts_task(text: str, task=None):
 
     """
     huey.put("gpu-lock-running", task.id)
-
-    output_wav = Style2TTSHighlander.get_instance().synth_text(text, task.id)
-    output_mp3 = convert_wav_to_mp3(output_wav)
-    _free_memory()
-
-    huey.get("gpu-lock-running", peek=False)
-    return os.path.abspath(output_mp3)
+    try:
+        output_wav = Style2TTSHighlander.get_instance().synth_text(text, task.id)
+        output_mp3 = convert_wav_to_mp3(output_wav)
+        return os.path.abspath(output_mp3)
+    finally:
+        _free_memory()
+        huey.get("gpu-lock-running", peek=False)
 
 
 @huey.task(context=True)
@@ -92,13 +92,15 @@ def kokoro_tts_task(text: str, voice: str, task=None):
 
     """
     huey.put("gpu-lock-running", task.id)
-
-    output_wav_dir = KokoroTTSHighlander.get_instance().synth_text(text, task.id, voice)
-    output_mp3 = convert_wav_dir_to_mp3(output_wav_dir)
-    _free_memory()
-
-    huey.get("gpu-lock-running", peek=False)
-    return os.path.abspath(output_mp3)
+    try:
+        output_wav_dir = KokoroTTSHighlander.get_instance().synth_text(
+            text, task.id, voice
+        )
+        output_mp3 = convert_wav_dir_to_mp3(output_wav_dir)
+        return os.path.abspath(output_mp3)
+    finally:
+        _free_memory()
+        huey.get("gpu-lock-running", peek=False)
 
 
 @huey.task(context=True)
@@ -112,13 +114,13 @@ def qwen3_tts_task(text: str, task=None):
 
     """
     huey.put("gpu-lock-running", task.id)
-
-    output_wav = Qwen3TTSHighlander.get_instance().synth_text(text, task.id)
-    output_mp3 = convert_wav_to_mp3(output_wav)
-    _free_memory()
-
-    huey.get("gpu-lock-running", peek=False)
-    return os.path.abspath(output_mp3)
+    try:
+        output_wav = Qwen3TTSHighlander.get_instance().synth_text(text, task.id)
+        output_mp3 = convert_wav_to_mp3(output_wav)
+        return os.path.abspath(output_mp3)
+    finally:
+        _free_memory()
+        huey.get("gpu-lock-running", peek=False)
 
 
 @huey.task()
