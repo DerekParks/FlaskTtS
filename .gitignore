@@ -180,3 +180,5 @@ Models/
 .envrc
 .aider*
 .claude/
+huggingface/
+test_output/

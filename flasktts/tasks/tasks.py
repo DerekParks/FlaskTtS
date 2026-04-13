@@ -1,6 +1,8 @@
+import gc
 import json
 import os
 
+import torch
 from huey.signals import SIGNAL_COMPLETE, SIGNAL_ERROR
 from huey.utils import Error
 
@@ -10,6 +12,13 @@ from flasktts.tasks.ffmpeg import convert_wav_dir_to_mp3, convert_wav_to_mp3
 from flasktts.tts.kokorotts import KokoroTTSHighlander
 from flasktts.tts.qwen3tts import Qwen3TTSHighlander
 from flasktts.tts.style2tts import Style2TTSHighlander
+
+
+def _free_memory():
+    """Release PyTorch cached memory back to the OS."""
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
 
 
 def get_tasks_pending_failed_complete_running() -> tuple[
@@ -65,6 +74,7 @@ def style2_tts_task(text: str, task=None):
 
     output_wav = Style2TTSHighlander.get_instance().synth_text(text, task.id)
     output_mp3 = convert_wav_to_mp3(output_wav)
+    _free_memory()
 
     huey.get("gpu-lock-running", peek=False)
     return os.path.abspath(output_mp3)
@@ -85,6 +95,7 @@ def kokoro_tts_task(text: str, voice: str, task=None):
 
     output_wav_dir = KokoroTTSHighlander.get_instance().synth_text(text, task.id, voice)
     output_mp3 = convert_wav_dir_to_mp3(output_wav_dir)
+    _free_memory()
 
     huey.get("gpu-lock-running", peek=False)
     return os.path.abspath(output_mp3)
@@ -104,6 +115,7 @@ def qwen3_tts_task(text: str, task=None):
 
     output_wav = Qwen3TTSHighlander.get_instance().synth_text(text, task.id)
     output_mp3 = convert_wav_to_mp3(output_wav)
+    _free_memory()
 
     huey.get("gpu-lock-running", peek=False)
     return os.path.abspath(output_mp3)
@@ -112,7 +124,7 @@ def qwen3_tts_task(text: str, task=None):
 @huey.task()
 def cleanup():
     """Huey task to clean up old task results."""
-    Style2TTSHighlander.get_instance().cleanup()
+    _cleanup_workdir_files()
     huey.flush()
 
 
@@ -124,8 +136,25 @@ def cleanup_task(task_id: str):
         task_id (str): Task ID to clean up
 
     """
-    Style2TTSHighlander.get_instance().cleanup(task_id)
+    _cleanup_workdir_files(task_id)
     huey.get(task_id, peek=False)
+
+
+def _cleanup_workdir_files(task_id=None):
+    """Remove generated files from the workdir, optionally filtered by task_id."""
+    workdir = Config.TTS_WORKDIR
+    if not os.path.exists(workdir):
+        return
+    for entry in os.listdir(workdir):
+        path = os.path.join(workdir, entry)
+        if task_id and task_id not in entry:
+            continue
+        if os.path.isfile(path):
+            os.remove(path)
+        elif os.path.isdir(path):
+            for f in os.listdir(path):
+                os.remove(os.path.join(path, f))
+            os.rmdir(path)
 
 
 @huey.signal(SIGNAL_COMPLETE)
