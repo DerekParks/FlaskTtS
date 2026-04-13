@@ -45,8 +45,7 @@ class Qwen3TTS:
         Initialize the Qwen3 TTS model with voice cloning from a reference audio.
 
         The voice clone prompt is pre-computed at startup so inference is a clean
-        forward pass — text in, audio out. This makes future offload to accelerators
-        like Hailo-8 (via ONNX/HEF) straightforward.
+        forward pass — text in, audio out.
 
         Args:
             output_dir (str): Output directory for generated audio files
@@ -86,8 +85,7 @@ class Qwen3TTS:
         """Select the best available compute device.
 
         Device selection is extracted as a static method to make it easy to
-        extend with additional backends (e.g. Hailo-8 via hailo_platform)
-        without touching inference logic.
+        extend with additional backends without touching inference logic.
 
         Note: MPS is currently disabled for Qwen3-TTS due to bf16 matmul
         incompatibilities in PyTorch MPS backend.
