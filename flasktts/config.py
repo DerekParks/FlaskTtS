@@ -25,3 +25,7 @@ class Config:
     PORT = int(os.getenv("PORT", 5001))
 
     CLEANUP_TASKS_AFTER_SEC = int(os.getenv("CLEANUP_TASKS_AFTER_SEC", 172800))
+
+    # Qwen3 speech rate: >1.0 = faster, <1.0 = slower, 1.0 = unchanged.
+    # Applied via pitch-preserving time stretch after generation.
+    QWEN3_SPEECH_RATE = float(os.getenv("QWEN3_SPEECH_RATE", 1.0))

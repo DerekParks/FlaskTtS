@@ -4,6 +4,7 @@ import re
 import time
 from typing import List, Optional
 
+import librosa
 import numpy as np
 import soundfile as sf
 import torch
@@ -47,6 +48,7 @@ class Qwen3TTS:
         device: Optional[str] = None,
         ref_audio: Optional[str] = None,
         ref_text: Optional[str] = None,
+        speech_rate: Optional[float] = None,
     ):
         """
         Initialize the Qwen3 TTS model with voice cloning from a reference audio.
@@ -60,15 +62,22 @@ class Qwen3TTS:
             device (str, optional): Device for inference. Defaults to auto-detect.
             ref_audio (str, optional): Path to reference audio WAV for voice cloning.
             ref_text (str, optional): Transcript of the reference audio.
+            speech_rate (float, optional): Pitch-preserving time stretch applied to
+                the output audio. >1.0 = faster, <1.0 = slower. Defaults to
+                Config.QWEN3_SPEECH_RATE.
         """
         self.device = self._select_device(device)
         self.output_dir = output_dir
         self.model_id = model_id or self.DEFAULT_MODEL_ID
+        self.speech_rate = (
+            speech_rate if speech_rate is not None else Config.QWEN3_SPEECH_RATE
+        )
 
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
         print(f"Starting Qwen3-TTS: {self.device} (torch {torch.__version__})")
+        print(f"Speech rate: {self.speech_rate}")
         print(f"Loading model: {self.model_id}")
 
         self.model = Qwen3TTSModel.from_pretrained(
@@ -184,6 +193,12 @@ class Qwen3TTS:
             )
 
         combined_audio = np.concatenate(all_segments)
+
+        if self.speech_rate != 1.0:
+            combined_audio = librosa.effects.time_stretch(
+                combined_audio, rate=self.speech_rate
+            )
+
         sf.write(output_path, combined_audio, sample_rate)
 
         total = time.perf_counter() - t0
