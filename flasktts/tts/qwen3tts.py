@@ -100,14 +100,19 @@ class Qwen3TTS:
     def _select_device(device: Optional[str] = None) -> torch.device:
         """Select the best available compute device.
 
-        Device selection is extracted as a static method to make it easy to
-        extend with additional backends without touching inference logic.
+        Honors the TTS_DEVICE env var as an override (e.g. "cpu", "cuda",
+        "cuda:0") for hosts where auto-detection picks the wrong backend —
+        for example an older GPU whose compute capability isn't supported
+        by the installed PyTorch build.
 
-        Note: MPS is currently disabled for Qwen3-TTS due to bf16 matmul
-        incompatibilities in PyTorch MPS backend.
+        Note: MPS is disabled for Qwen3-TTS due to bf16 matmul
+        incompatibilities in the PyTorch MPS backend.
         """
         if device is not None:
             return torch.device(device)
+        env_device = os.getenv("TTS_DEVICE")
+        if env_device:
+            return torch.device(env_device)
         if torch.cuda.is_available():
             return torch.device("cuda")
         # MPS crashes on Qwen3-TTS bf16 matmul ops — skip it
