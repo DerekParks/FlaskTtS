@@ -11,6 +11,7 @@ services:
       - ./huggingface:/root/.cache/huggingface/
     environment:
       - HUEY_DB_PATH=/FlaskTtS/db/huey.db
+      - PYTHONUNBUFFERED=1
     deploy:
       resources:
         reservations:
