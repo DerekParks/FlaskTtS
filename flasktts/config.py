@@ -30,6 +30,9 @@ class Config:
     # Applied via pitch-preserving time stretch after generation.
     QWEN3_SPEECH_RATE = float(os.getenv("QWEN3_SPEECH_RATE", 1.0))
 
+    # Qwen3 chunks generated per batch; halved on CUDA out-of-memory.
+    QWEN3_BATCH_SIZE = int(os.getenv("QWEN3_BATCH_SIZE", 4))
+
     # Kokoro inference under fp16 autocast, CUDA only.
     KOKORO_FP16 = os.getenv("KOKORO_FP16", "true").lower() == "true"
 

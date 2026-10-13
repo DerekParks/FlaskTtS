@@ -2,7 +2,7 @@ import gc
 import os
 import re
 import time
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import librosa
 import numpy as np
@@ -49,6 +49,7 @@ class Qwen3TTS:
         ref_audio: Optional[str] = None,
         ref_text: Optional[str] = None,
         speech_rate: Optional[float] = None,
+        batch_size: Optional[int] = None,
     ):
         """
         Initialize the Qwen3 TTS model with voice cloning from a reference audio.
@@ -65,6 +66,8 @@ class Qwen3TTS:
             speech_rate (float, optional): Pitch-preserving time stretch applied to
                 the output audio. >1.0 = faster, <1.0 = slower. Defaults to
                 Config.QWEN3_SPEECH_RATE.
+            batch_size (int, optional): Chunks generated together. Defaults to
+                Config.QWEN3_BATCH_SIZE.
         """
         self.device = self._select_device(device)
         self.output_dir = output_dir
@@ -72,6 +75,7 @@ class Qwen3TTS:
         self.speech_rate = (
             speech_rate if speech_rate is not None else Config.QWEN3_SPEECH_RATE
         )
+        self.batch_size = batch_size or Config.QWEN3_BATCH_SIZE
 
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
@@ -147,12 +151,48 @@ class Qwen3TTS:
             chunks.append(current)
         return chunks
 
+    def _generate(self, chunks: List[str]) -> Tuple[List[np.ndarray], int]:
+        """One waveform per chunk, generated self.batch_size chunks at a time.
+
+        A batch that runs out of CUDA memory is retried at half the size, and the smaller size
+        is kept for later batches.
+        """
+        segments: List[np.ndarray] = []
+        sample_rate = None
+        i = 0
+        while i < len(chunks):
+            batch = chunks[i : i + self.batch_size]
+            batch_start = time.perf_counter()
+            try:
+                wavs, sample_rate = self.model.generate_voice_clone(
+                    text=batch,
+                    voice_clone_prompt=self.voice_prompt * len(batch),
+                )
+            except torch.cuda.OutOfMemoryError:
+                if len(batch) == 1:
+                    raise
+                self.batch_size = len(batch) // 2
+                print(f"  CUDA out of memory at batch size {len(batch)}, retrying at {self.batch_size}")
+                continue
+            finally:
+                gc.collect()
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+            segments.extend(wavs)
+            i += len(batch)
+
+            audio_len = sum(len(w) for w in wavs) / sample_rate
+            elapsed = time.perf_counter() - batch_start
+            print(
+                f"  chunks {i}/{len(chunks)}: {sum(len(c) for c in batch)} chars -> "
+                f"{audio_len:.1f}s audio in {elapsed:.1f}s (RTF {elapsed / audio_len:.2f})"
+            )
+        return segments, sample_rate
+
     def synth_text(self, text: str, uuid: str) -> str:
         """Synthesize text to speech using the pre-computed cloned voice.
 
-        The input is split into sentence-aligned chunks and generated one at a
-        time so a long article produces incremental progress, frees memory
-        between chunks, and keeps per-call work bounded.
+        The input is split into sentence-aligned chunks, generated in batches of self.batch_size.
 
         Args:
             text (str): Text to synthesize
@@ -169,34 +209,11 @@ class Qwen3TTS:
 
         print(
             f"Qwen3-TTS {uuid}: generating {len(chunks)} chunk(s) "
-            f"({sum(len(c) for c in chunks)} chars)"
+            f"({sum(len(c) for c in chunks)} chars) in batches of {self.batch_size}"
         )
 
-        all_segments: List[np.ndarray] = []
-        sample_rate: Optional[int] = None
         t0 = time.perf_counter()
-        for i, chunk in enumerate(chunks, start=1):
-            chunk_start = time.perf_counter()
-            segments, sr = self.model.generate_voice_clone(
-                text=chunk,
-                voice_clone_prompt=self.voice_prompt,
-            )
-            sample_rate = sr
-            all_segments.extend(segments)
-
-            # Free intermediate tensors between chunks to keep memory bounded
-            gc.collect()
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-
-            chunk_audio_len = sum(len(s) for s in segments) / sr
-            elapsed = time.perf_counter() - chunk_start
-            print(
-                f"  chunk {i}/{len(chunks)}: {len(chunk)} chars -> "
-                f"{chunk_audio_len:.1f}s audio in {elapsed:.1f}s "
-                f"(RTF {elapsed / chunk_audio_len:.2f})"
-            )
-
+        all_segments, sample_rate = self._generate(chunks)
         combined_audio = np.concatenate(all_segments)
 
         if self.speech_rate != 1.0:
