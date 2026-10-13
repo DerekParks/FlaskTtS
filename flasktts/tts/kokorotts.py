@@ -7,6 +7,7 @@ import numpy as np
 import soundfile as sf
 import torch
 from kokoro import KModel, KPipeline
+from misaki import en
 
 from flasktts.config import Config
 
@@ -14,6 +15,16 @@ REPO_ID = "hexgrad/Kokoro-82M"
 SAMPLE_RATE = 24000
 DEFAULT_VOICE = "af_heart"
 PARAGRAPH_PAUSE_SEC = 0.3
+ENGLISH_LANG_CODES = ("a", "b")
+
+# misaki's lexicon has the biblical name Dives (DYE-veez) for every case of "dives"
+LEXICON_OVERRIDES = {
+    "dives": "dˈIvz",
+}
+
+
+def apply_lexicon_overrides(g2p: en.G2P) -> None:
+    g2p.lexicon.golds.update(en.Lexicon.grow_dictionary(LEXICON_OVERRIDES))
 
 
 class KokoroTTSHighlander:
@@ -51,9 +62,10 @@ class KokoroTTS:
         """Pipeline whose G2P matches the voice's language prefix, e.g. 'b' for bf_emma."""
         lang_code = voice[0]
         if lang_code not in self.pipelines:
-            self.pipelines[lang_code] = KPipeline(
-                lang_code=lang_code, repo_id=REPO_ID, model=self.model
-            )
+            pipeline = KPipeline(lang_code=lang_code, repo_id=REPO_ID, model=self.model)
+            if lang_code in ENGLISH_LANG_CODES:
+                apply_lexicon_overrides(pipeline.g2p)
+            self.pipelines[lang_code] = pipeline
         return self.pipelines[lang_code]
 
     def synth_text(

@@ -5,12 +5,14 @@ import numpy as np
 import pytest
 import soundfile as sf
 import torch
+from misaki import en
 
 from flasktts.tts.kokorotts import (
     DEFAULT_VOICE,
     PARAGRAPH_PAUSE_SEC,
     SAMPLE_RATE,
     KokoroTTS,
+    apply_lexicon_overrides,
 )
 
 SAMPLES_PER_CHUNK = 100
@@ -88,3 +90,22 @@ def test_pipeline_per_language_shares_one_model(tts):
 def test_no_audio_raises(tts):
     with pytest.raises(ValueError):
         tts.synth_text("\n\n", "job", voice="af_heart")
+
+
+@pytest.mark.parametrize("british", [False, True])
+def test_dives_pronounced_as_verb(british):
+    g2p = en.G2P(trf=False, british=british, fallback=None, unk="")
+    apply_lexicon_overrides(g2p)
+
+    phonemes, _ = g2p("Deep dives. Dives deep. DIVES.")
+
+    assert phonemes.count("dˈIvz") == 3
+    assert "iz" not in phonemes
+
+
+def test_lexicon_overrides_only_on_english_pipelines(tts):
+    tts.synth_text("1", "job-a", voice="af_heart")
+    tts.synth_text("1", "job-j", voice="jf_alpha")
+
+    tts.pipelines["a"].g2p.lexicon.golds.update.assert_called_once()
+    tts.pipelines["j"].g2p.lexicon.golds.update.assert_not_called()
