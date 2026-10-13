@@ -47,5 +47,6 @@ ADD flasktts/ /FlaskTtS/flasktts
 RUN pip3 install -e .
 # qwen-tts needs newer accelerate/transformers than styletts2 pins; install last to override
 RUN pip3 install qwen-tts
+RUN python3 -m spacy download en_core_web_sm
 
 CMD ["/FlaskTtS/entrypoint.sh"]
