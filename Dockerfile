@@ -35,7 +35,7 @@ RUN pip3 install torch==2.7.0 torchaudio==2.7.0 \
 ADD requirements.txt /FlaskTtS/requirements.txt
 RUN pip3 install -r requirements.txt
 
-RUN pip3 install -I git+https://github.com/thewh1teagle/phonemizer-fork.git@dev
+RUN pip3 install -I phonemizer-fork==3.3.2
 
 COPY entrypoint.sh /FlaskTtS/
 RUN chmod +x /FlaskTtS/entrypoint.sh
