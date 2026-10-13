@@ -35,3 +35,6 @@ class Config:
 
     # Exported model from the homographs repo; unset disables homograph disambiguation.
     HOMOGRAPH_MODEL_DIR = os.getenv("HOMOGRAPH_MODEL_DIR")
+
+    # Wyoming text-to-speech server for Home Assistant, e.g. tcp://0.0.0.0:10200; empty disables it.
+    WYOMING_URI = os.getenv("WYOMING_URI", "tcp://0.0.0.0:10200")

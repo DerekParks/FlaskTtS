@@ -1,3 +1,5 @@
+import threading
+import time
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
@@ -13,6 +15,7 @@ from flasktts.tts.kokorotts import (
     PARAGRAPH_PAUSE_SEC,
     SAMPLE_RATE,
     KokoroTTS,
+    ModelLock,
     apply_lexicon_overrides,
 )
 
@@ -128,15 +131,23 @@ def test_inference_runs_inside_autocast(tts):
     autocast = MagicMock()
     autocast.return_value.__enter__.side_effect = lambda: states.append("enter")
     autocast.return_value.__exit__.side_effect = lambda *a: states.append("exit")
-    tts._pipeline_for("af_heart").side_effect = lambda text, **k: (
-        states.append("synth") or iter([SimpleNamespace(audio=torch.ones(10))])
-    )
+
+    def lazy_chunks(text, **kwargs):
+        for _ in range(2):
+            states.append("synth")
+            yield SimpleNamespace(audio=torch.ones(10))
+
+    tts._pipeline_for("af_heart").side_effect = lazy_chunks
 
     with patch("flasktts.tts.kokorotts.torch.autocast", autocast):
         tts.synth_text("1", "job", voice="af_heart")
 
     assert autocast.call_args.kwargs == {"dtype": torch.float16, "enabled": True}
-    assert states == ["enter", "synth", "exit"]
+    assert states.count("synth") == 2
+    depth = 0
+    for state in states:
+        depth += {"enter": 1, "exit": -1}.get(state, 0)
+        assert state != "synth" or depth == 1
 
 
 def test_half_precision_audio_written_as_float(tts):
@@ -170,3 +181,58 @@ def test_annotated_paragraph_reaches_pipeline(tts):
 
 def test_homographs_disabled_without_model_dir(tts):
     assert tts.homographs is None
+
+
+def test_stream_computes_each_chunk_under_the_model_lock(tts):
+    held = []
+
+    def lazy_chunks(text, **kwargs):
+        for _ in range(3):
+            held.append(tts.lock.held)
+            yield SimpleNamespace(audio=torch.ones(10))
+
+    tts._pipeline_for("af_heart").side_effect = lazy_chunks
+
+    chunks = tts.stream("1", voice="af_heart")
+    next(chunks)
+    assert not tts.lock.held
+    list(chunks)
+
+    assert held == [True, True, True]
+
+
+def test_stream_yields_pause_between_paragraphs(tts):
+    chunks = list(tts.stream("1\n\n2", voice="af_heart"))
+
+    assert [len(c) for c in chunks] == [
+        SAMPLES_PER_CHUNK,
+        SAMPLES_PER_CHUNK,
+        int(PARAGRAPH_PAUSE_SEC * SAMPLE_RATE),
+        SAMPLES_PER_CHUNK,
+        SAMPLES_PER_CHUNK,
+    ]
+
+
+def test_interactive_waiter_goes_before_waiting_batch():
+    lock = ModelLock()
+    order = []
+    batch_waiting = threading.Event()
+
+    def take(name, interactive, started=None):
+        if started:
+            started.set()
+        with lock(interactive):
+            order.append(name)
+
+    with lock():
+        batch = threading.Thread(target=take, args=("batch", False, batch_waiting))
+        batch.start()
+        batch_waiting.wait()
+        time.sleep(0.05)
+        interactive = threading.Thread(target=take, args=("interactive", True))
+        interactive.start()
+        time.sleep(0.05)
+    batch.join()
+    interactive.join()
+
+    assert order == ["interactive", "batch"]

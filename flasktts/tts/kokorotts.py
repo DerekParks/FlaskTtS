@@ -1,7 +1,9 @@
 import os
 import re
+import threading
+from contextlib import contextmanager
 from numbers import Number
-from typing import Dict, Optional
+from typing import Dict, Iterator, Optional
 
 import numpy as np
 import soundfile as sf
@@ -27,6 +29,36 @@ LEXICON_OVERRIDES = {
 
 def apply_lexicon_overrides(g2p: en.G2P) -> None:
     g2p.lexicon.golds.update(en.Lexicon.grow_dictionary(LEXICON_OVERRIDES))
+
+
+class ModelLock:
+    """Mutex where interactive holders go ahead of waiting batch holders."""
+
+    def __init__(self):
+        self._condition = threading.Condition()
+        self._held = False
+        self._interactive_waiting = 0
+
+    @property
+    def held(self) -> bool:
+        return self._held
+
+    @contextmanager
+    def __call__(self, interactive: bool = False):
+        with self._condition:
+            self._interactive_waiting += interactive
+            try:
+                while self._held or (not interactive and self._interactive_waiting):
+                    self._condition.wait()
+            finally:
+                self._interactive_waiting -= interactive
+            self._held = True
+        try:
+            yield
+        finally:
+            with self._condition:
+                self._held = False
+                self._condition.notify_all()
 
 
 class KokoroTTSHighlander:
@@ -72,6 +104,7 @@ class KokoroTTS:
         )
         self.model = KModel(repo_id=REPO_ID).to(device).eval()
         self.pipelines: Dict[str, KPipeline] = {}
+        self.lock = ModelLock()
         homograph_model_dir = homograph_model_dir or Config.HOMOGRAPH_MODEL_DIR
         self.homographs = HomographDisambiguator(homograph_model_dir, device) if homograph_model_dir else None
 
@@ -84,6 +117,66 @@ class KokoroTTS:
                 apply_lexicon_overrides(pipeline.g2p)
             self.pipelines[lang_code] = pipeline
         return self.pipelines[lang_code]
+
+    def stream(
+        self,
+        text: str,
+        voice: Optional[str] = None,
+        speed: Number = 1,
+        interactive: bool = False,
+    ) -> Iterator[np.ndarray]:
+        """
+        Synthesize text to speech chunk by chunk, with a pause between paragraphs
+
+        The model lock is held only while computing each chunk, so concurrent streams take turns,
+        interactive streams ahead of batch ones.
+
+        Args:
+            text (str): Text to synthesize, paragraphs separated by newlines
+            voice (str, optional): Voice to use for synthesis. Defaults to DEFAULT_VOICE.
+            speed (Number, optional): Speed of speech. Defaults to 1.
+            interactive (bool, optional): Someone is waiting to hear this, e.g. a voice assistant reply.
+
+        Yields:
+            np.ndarray: float32 mono audio at SAMPLE_RATE
+        """
+        voice = voice or DEFAULT_VOICE
+        with self.lock(interactive):
+            pipeline = self._pipeline_for(voice)
+        homographs = self.homographs if voice[0] == AMERICAN_LANG_CODE else None
+        pause = np.zeros(int(PARAGRAPH_PAUSE_SEC * SAMPLE_RATE), dtype=np.float32)
+
+        emitted = False
+        for paragraph in re.split(r"\n+", text.strip()):
+            if not paragraph.strip():
+                continue
+            with self.lock(interactive):
+                if homographs:
+                    paragraph = homographs.annotate(paragraph)
+                results = pipeline(paragraph, voice=voice, speed=speed, split_pattern=None)
+            for i, audio in enumerate(self._locked_chunks(results, interactive)):
+                if emitted and i == 0:
+                    yield pause
+                emitted = True
+                yield audio
+
+    def _locked_chunks(self, results: Iterator, interactive: bool) -> Iterator[np.ndarray]:
+        """Advances a pipeline's lazy generator one chunk at a time under the model lock."""
+        while True:
+            with self.lock(interactive), torch.autocast("cuda", dtype=torch.float16, enabled=self.fp16):
+                result = next(results, None)
+                if result is None:
+                    return
+                if result.audio is None:
+                    continue
+                audio = result.audio.float().cpu().numpy()
+            yield audio
+
+    def warm_up(self, voices) -> None:
+        """Builds each voice's pipeline and runs it once, so the first real request skips G2P and voice loading."""
+        for voice in voices:
+            for _ in self.stream("Ready.", voice):
+                pass
 
     def synth_text(
         self, text: str, uuid: str, voice: Optional[str] = None, speed: Number = 1
@@ -100,26 +193,7 @@ class KokoroTTS:
         Returns:
             str: Path to the generated WAV file
         """
-        voice = voice or DEFAULT_VOICE
-        pipeline = self._pipeline_for(voice)
-        homographs = self.homographs if voice[0] == AMERICAN_LANG_CODE else None
-        pause = np.zeros(int(PARAGRAPH_PAUSE_SEC * SAMPLE_RATE), dtype=np.float32)
-
-        segments = []
-        with torch.autocast("cuda", dtype=torch.float16, enabled=self.fp16):
-            for paragraph in re.split(r"\n+", text.strip()):
-                if not paragraph.strip():
-                    continue
-                if segments:
-                    segments.append(pause)
-                if homographs:
-                    paragraph = homographs.annotate(paragraph)
-                for result in pipeline(
-                    paragraph, voice=voice, speed=speed, split_pattern=None
-                ):
-                    if result.audio is not None:
-                        segments.append(result.audio.float().cpu().numpy())
-
+        segments = list(self.stream(text, voice, speed))
         if not segments:
             raise ValueError(f"Kokoro produced no audio for {uuid}")
 
