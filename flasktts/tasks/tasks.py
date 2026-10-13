@@ -8,7 +8,7 @@ from huey.utils import Error
 
 from flasktts.app import huey, mqtt_client
 from flasktts.config import Config
-from flasktts.tasks.ffmpeg import convert_wav_dir_to_mp3, convert_wav_to_mp3
+from flasktts.tasks.ffmpeg import convert_wav_to_mp3
 from flasktts.tts.kokorotts import KokoroTTSHighlander
 from flasktts.tts.qwen3tts import Qwen3TTSHighlander
 from flasktts.tts.style2tts import Style2TTSHighlander
@@ -87,16 +87,16 @@ def kokoro_tts_task(text: str, voice: str, task=None):
 
     Args:
         text (str): Text to convert to speech
-        voice (str): Voice to use for synthesis
+        voice (str): Voice to use for synthesis, None for the default voice
         task (Huey task): Huey task object, will be passed by Huey (default: None)
 
     """
     huey.put("gpu-lock-running", task.id)
     try:
-        output_wav_dir = KokoroTTSHighlander.get_instance().synth_text(
+        output_wav = KokoroTTSHighlander.get_instance().synth_text(
             text, task.id, voice
         )
-        output_mp3 = convert_wav_dir_to_mp3(output_wav_dir)
+        output_mp3 = convert_wav_to_mp3(output_wav)
         return os.path.abspath(output_mp3)
     finally:
         _free_memory()

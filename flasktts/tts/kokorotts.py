@@ -1,13 +1,19 @@
 import os
-import time
+import re
 from numbers import Number
-from typing import Optional
+from typing import Dict, Optional
 
+import numpy as np
 import soundfile as sf
 import torch
-from kokoro import KPipeline
+from kokoro import KModel, KPipeline
 
 from flasktts.config import Config
+
+REPO_ID = "hexgrad/Kokoro-82M"
+SAMPLE_RATE = 24000
+DEFAULT_VOICE = "af_heart"
+PARAGRAPH_PAUSE_SEC = 0.3
 
 
 class KokoroTTSHighlander:
@@ -21,17 +27,10 @@ class KokoroTTSHighlander:
 
 
 class KokoroTTS:
-    def __init__(
-        self, output_dir: str, lang_code: str = "a", device: Optional[str] = None
-    ):
+    def __init__(self, output_dir: str, device: Optional[str] = None):
         """
         Args:
             output_dir (str): Output directory to save the generated audio files
-            lang_code (str):
-                 🇺🇸 'a' => American English,
-                 🇬🇧 'b' => British English
-                 🇯🇵 'j' => Japanese: pip install misaki[ja]
-                🇨🇳 'z' => Mandarin Chinese: pip install misaki[zh]
             device (str, optional): Device to use for inference. Defaults to None for auto-detect.
         """
 
@@ -45,45 +44,54 @@ class KokoroTTS:
             else:
                 device = torch.device("cpu")
         self.output_dir = output_dir
-        self.pipeline = KPipeline(lang_code=lang_code, device=device)
+        self.model = KModel(repo_id=REPO_ID).to(device).eval()
+        self.pipelines: Dict[str, KPipeline] = {}
 
-    def synth_text(self, text: str, uuid: str, voice: str, speed: Number = 1) -> str:
+    def _pipeline_for(self, voice: str) -> KPipeline:
+        """Pipeline whose G2P matches the voice's language prefix, e.g. 'b' for bf_emma."""
+        lang_code = voice[0]
+        if lang_code not in self.pipelines:
+            self.pipelines[lang_code] = KPipeline(
+                lang_code=lang_code, repo_id=REPO_ID, model=self.model
+            )
+        return self.pipelines[lang_code]
+
+    def synth_text(
+        self, text: str, uuid: str, voice: Optional[str] = None, speed: Number = 1
+    ) -> str:
         """
         Synthesize text to speech
 
         Args:
-            text (str): Text to synthesize
+            text (str): Text to synthesize, paragraphs separated by newlines
             uuid (str): Unique identifier for the job
-            voice (str): Voice to use for synthesis
+            voice (str, optional): Voice to use for synthesis. Defaults to DEFAULT_VOICE.
             speed (Number, optional): Speed of speech. Defaults to 1.
 
         Returns:
-            str: Output path where the generated audio files
+            str: Path to the generated WAV file
         """
-        output_path = os.path.join(self.output_dir, uuid)
-        if os.path.exists(output_path):
-            print(
-                f"Output path {output_path} already exists, deleting in 3 seconds Ctrl+C to cancel"
-            )
-            time.sleep(3)
-            for file in os.listdir(output_path):
-                os.remove(os.path.join(output_path, file))
-            os.rmdir(output_path)
-        os.makedirs(output_path)
+        voice = voice or DEFAULT_VOICE
+        pipeline = self._pipeline_for(voice)
+        pause = np.zeros(int(PARAGRAPH_PAUSE_SEC * SAMPLE_RATE), dtype=np.float32)
 
-        generator = self.pipeline(
-            text,
-            voice=voice,
-            speed=speed,
-            split_pattern=r"\n+",
-        )
+        segments = []
+        for paragraph in re.split(r"\n+", text.strip()):
+            if not paragraph.strip():
+                continue
+            if segments:
+                segments.append(pause)
+            for result in pipeline(
+                paragraph, voice=voice, speed=speed, split_pattern=None
+            ):
+                if result.audio is not None:
+                    segments.append(result.audio.cpu().numpy())
 
-        for i, (_, _, audio) in enumerate(generator):
-            print(i)
-            sf.write(
-                os.path.join(output_path, f"{int(time.time())}_{i}.wav"), audio, 24000
-            )
+        if not segments:
+            raise ValueError(f"Kokoro produced no audio for {uuid}")
 
+        output_path = os.path.join(self.output_dir, f"{uuid}.wav")
+        sf.write(output_path, np.concatenate(segments), SAMPLE_RATE)
         print(f"TTS completed for {uuid}, output saved to {output_path}")
 
         return output_path
@@ -100,6 +108,5 @@ if __name__ == "__main__":
     [Kokoro](/kˈOkəɹO/) is an open-weight TTS model with 82 million parameters. Despite its lightweight architecture, it delivers comparable quality to larger models while being significantly faster and more cost-efficient. With Apache-licensed weights, [Kokoro](/kˈOkəɹO/) can be deployed anywhere from production environments to personal projects.
     """
 
-    KokoroTTS("test_output", lang_code="a").synth_text(
-        text, "test-kokoro", voice="af_heart"
-    )
+    os.makedirs("test_output", exist_ok=True)
+    KokoroTTS("test_output").synth_text(text, "test-kokoro", voice=DEFAULT_VOICE)

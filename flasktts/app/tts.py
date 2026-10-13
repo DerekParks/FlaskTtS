@@ -45,7 +45,7 @@ tts_request = api.model(
         "voice": fields.String(
             description="Voice to use for text-to-speech (kokoro only, e.g. af_heart; qwen3 uses a pre-baked Kokoro-cloned voice and ignores this field)",
             example="af_heart",
-            default=None,
+            default="af_heart",
         ),
     },
 )
