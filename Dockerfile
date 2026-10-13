@@ -49,4 +49,5 @@ RUN pip3 install -e .
 RUN pip3 install qwen-tts
 RUN python3 -m spacy download en_core_web_sm
 
+ENV PYTHONUNBUFFERED=1
 CMD ["/FlaskTtS/entrypoint.sh"]
