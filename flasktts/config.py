@@ -32,3 +32,6 @@ class Config:
 
     # Kokoro inference under fp16 autocast, CUDA only.
     KOKORO_FP16 = os.getenv("KOKORO_FP16", "true").lower() == "true"
+
+    # Exported model from the homographs repo; unset disables homograph disambiguation.
+    HOMOGRAPH_MODEL_DIR = os.getenv("HOMOGRAPH_MODEL_DIR")

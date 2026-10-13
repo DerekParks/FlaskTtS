@@ -7,6 +7,7 @@ import soundfile as sf
 import torch
 from misaki import en
 
+from flasktts.config import Config
 from flasktts.tts.kokorotts import (
     DEFAULT_VOICE,
     PARAGRAPH_PAUSE_SEC,
@@ -32,6 +33,7 @@ def fake_pipeline(lang_code, repo_id, model):
 @pytest.fixture
 def tts(tmp_path):
     with (
+        patch.object(Config, "HOMOGRAPH_MODEL_DIR", None),
         patch("flasktts.tts.kokorotts.KModel") as kmodel,
         patch(
             "flasktts.tts.kokorotts.KPipeline", side_effect=fake_pipeline
@@ -145,3 +147,26 @@ def test_half_precision_audio_written_as_float(tts):
     audio, _ = sf.read(tts.synth_text("1", "job", voice="af_heart"))
 
     np.testing.assert_allclose(audio, 0.25, atol=1e-4)
+
+
+def test_homographs_annotate_only_american_voices(tts):
+    tts.homographs = MagicMock()
+    tts.homographs.annotate.side_effect = lambda text: text
+
+    tts.synth_text("1\n\n2", "job-a", voice="af_heart")
+    tts.synth_text("1", "job-b", voice="bf_emma")
+
+    assert [c.args[0] for c in tts.homographs.annotate.call_args_list] == ["1", "2"]
+
+
+def test_annotated_paragraph_reaches_pipeline(tts):
+    tts.homographs = MagicMock()
+    tts.homographs.annotate.side_effect = lambda text: f"{int(text) + 1}"
+
+    tts.synth_text("1", "job", voice="af_heart")
+
+    assert tts.pipelines["a"].call_args.args[0] == "2"
+
+
+def test_homographs_disabled_without_model_dir(tts):
+    assert tts.homographs is None

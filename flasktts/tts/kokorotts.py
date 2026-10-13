@@ -10,12 +10,14 @@ from kokoro import KModel, KPipeline
 from misaki import en
 
 from flasktts.config import Config
+from flasktts.tts.homographs import HomographDisambiguator
 
 REPO_ID = "hexgrad/Kokoro-82M"
 SAMPLE_RATE = 24000
 DEFAULT_VOICE = "af_heart"
 PARAGRAPH_PAUSE_SEC = 0.3
 ENGLISH_LANG_CODES = ("a", "b")
+AMERICAN_LANG_CODE = "a"
 
 # misaki's lexicon has the biblical name Dives (DYE-veez) for every case of "dives"
 LEXICON_OVERRIDES = {
@@ -43,6 +45,7 @@ class KokoroTTS:
         output_dir: str,
         device: Optional[str] = None,
         fp16: Optional[bool] = None,
+        homograph_model_dir: Optional[str] = None,
     ):
         """
         Args:
@@ -50,6 +53,8 @@ class KokoroTTS:
             device (str, optional): Device to use for inference. Defaults to None for auto-detect.
             fp16 (bool, optional): Run inference under fp16 autocast. Only applies on CUDA.
                 Defaults to Config.KOKORO_FP16.
+            homograph_model_dir (str, optional): Exported homograph model, applied to American English voices.
+                Defaults to Config.HOMOGRAPH_MODEL_DIR; disabled when neither is set.
         """
 
         if device is None:
@@ -67,6 +72,8 @@ class KokoroTTS:
         )
         self.model = KModel(repo_id=REPO_ID).to(device).eval()
         self.pipelines: Dict[str, KPipeline] = {}
+        homograph_model_dir = homograph_model_dir or Config.HOMOGRAPH_MODEL_DIR
+        self.homographs = HomographDisambiguator(homograph_model_dir, device) if homograph_model_dir else None
 
     def _pipeline_for(self, voice: str) -> KPipeline:
         """Pipeline whose G2P matches the voice's language prefix, e.g. 'b' for bf_emma."""
@@ -95,6 +102,7 @@ class KokoroTTS:
         """
         voice = voice or DEFAULT_VOICE
         pipeline = self._pipeline_for(voice)
+        homographs = self.homographs if voice[0] == AMERICAN_LANG_CODE else None
         pause = np.zeros(int(PARAGRAPH_PAUSE_SEC * SAMPLE_RATE), dtype=np.float32)
 
         segments = []
@@ -104,6 +112,8 @@ class KokoroTTS:
                     continue
                 if segments:
                     segments.append(pause)
+                if homographs:
+                    paragraph = homographs.annotate(paragraph)
                 for result in pipeline(
                     paragraph, voice=voice, speed=speed, split_pattern=None
                 ):
