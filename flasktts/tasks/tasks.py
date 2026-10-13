@@ -1,6 +1,8 @@
 import gc
 import json
 import os
+import traceback
+from contextlib import contextmanager
 
 import torch
 from huey.signals import SIGNAL_COMPLETE, SIGNAL_ERROR
@@ -19,6 +21,19 @@ def _free_memory():
     gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
+
+
+@contextmanager
+def _unloaded_after(highlander):
+    """Drops the highlander's model, and with it its GPU memory, when the block exits."""
+    try:
+        yield
+    except BaseException as err:
+        traceback.clear_frames(err.__traceback__)
+        raise
+    finally:
+        highlander.release()
+        _free_memory()
 
 
 def get_tasks_pending_failed_complete_running() -> tuple[
@@ -72,7 +87,8 @@ def style2_tts_task(text: str, task=None):
     """
     huey.put("gpu-lock-running", task.id)
     try:
-        output_wav = Style2TTSHighlander.get_instance().synth_text(text, task.id)
+        with _unloaded_after(Style2TTSHighlander):
+            output_wav = Style2TTSHighlander.get_instance().synth_text(text, task.id)
         output_mp3 = convert_wav_to_mp3(output_wav)
         return os.path.abspath(output_mp3)
     finally:
@@ -115,7 +131,8 @@ def qwen3_tts_task(text: str, task=None):
     """
     huey.put("gpu-lock-running", task.id)
     try:
-        output_wav = Qwen3TTSHighlander.get_instance().synth_text(text, task.id)
+        with _unloaded_after(Qwen3TTSHighlander):
+            output_wav = Qwen3TTSHighlander.get_instance().synth_text(text, task.id)
         output_mp3 = convert_wav_to_mp3(output_wav)
         return os.path.abspath(output_mp3)
     finally:

@@ -37,6 +37,10 @@ class Qwen3TTSHighlander:
             cls._instance = Qwen3TTS(Config.TTS_WORKDIR)
         return cls._instance
 
+    @classmethod
+    def release(cls):
+        cls._instance = None
+
 
 class Qwen3TTS:
     DEFAULT_MODEL_ID = "Qwen/Qwen3-TTS-12Hz-0.6B-Base"

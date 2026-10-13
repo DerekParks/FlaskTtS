@@ -36,6 +36,10 @@ class Style2TTSHighlander:
             cls._instance = Style2TTS(Config.TTS_WORKDIR)
         return cls._instance
 
+    @classmethod
+    def release(cls):
+        cls._instance = None
+
 
 class Style2TTS:
     def __init__(self, output_dir: str, device: Optional[str] = None):
