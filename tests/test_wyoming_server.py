@@ -147,8 +147,11 @@ def test_to_pcm16_clips_and_scales():
     assert pcm.tolist() == [0, 16383, -32767, 32767]
 
 
-def test_kokoro_voices_keeps_supported_languages():
-    files = ["config.json", "voices/af_heart.pt", "voices/bm_george.pt", "voices/jf_alpha.pt", "voices/zf_xiaoyi.pt"]
+def test_kokoro_voices_keeps_supported_languages(tmp_path):
+    (tmp_path / "voices").mkdir()
+    for name in ["af_heart", "bm_george", "jf_alpha", "zf_xiaoyi"]:
+        (tmp_path / "voices" / f"{name}.pt").touch()
 
-    with patch("flasktts.wyoming_server.list_repo_files", return_value=files):
+    with patch("flasktts.wyoming_server.snapshot_download", return_value=str(tmp_path)) as download:
         assert kokoro_voices() == ["af_heart", "bm_george"]
+    assert download.call_args.kwargs == {"allow_patterns": ["voices/*.pt"]}

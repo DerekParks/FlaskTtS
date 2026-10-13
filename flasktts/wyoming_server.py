@@ -3,10 +3,11 @@
 import asyncio
 import logging
 from functools import partial
+from pathlib import Path
 from typing import Iterator, List, Optional
 
 import numpy as np
-from huggingface_hub import list_repo_files
+from huggingface_hub import snapshot_download
 from sentence_stream import SentenceBoundaryDetector
 from wyoming.audio import AudioChunk, AudioStart, AudioStop
 from wyoming.error import Error
@@ -35,13 +36,12 @@ ATTRIBUTION = Attribution(name="hexgrad", url="https://huggingface.co/hexgrad/Ko
 
 
 def kokoro_voices() -> List[str]:
-    """Kokoro voice names whose language pipeline FlaskTtS supports, e.g. af_heart, bf_emma."""
-    names = [
-        path.removeprefix("voices/").removesuffix(".pt")
-        for path in list_repo_files(REPO_ID)
-        if path.startswith("voices/") and path.endswith(".pt")
-    ]
-    return sorted(name for name in names if name[0] in LANGUAGES)
+    """Kokoro voice names whose language pipeline FlaskTtS supports, e.g. af_heart, bf_emma.
+
+    Downloads the voices, falling back to the Hugging Face cache when the Hub is unreachable.
+    """
+    snapshot = Path(snapshot_download(REPO_ID, allow_patterns=["voices/*.pt"]))
+    return sorted(path.stem for path in (snapshot / "voices").glob("*.pt") if path.stem[0] in LANGUAGES)
 
 
 def build_info(voices: List[str]) -> Info:
