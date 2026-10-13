@@ -97,7 +97,7 @@ class HomographDisambiguator:
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
         self.dtype = torch.bfloat16 if self.device.type == "cuda" else torch.float32
         self.tokenizer = AutoTokenizer.from_pretrained(model_dir)
-        self.model = HomographModel(AutoConfig.from_pretrained(model_dir), len(self.classes))
+        self.model = HomographModel(AutoConfig.from_pretrained(model_dir, reference_compile=False), len(self.classes))
         self.model.load_state_dict(load_file(model_dir / "model.safetensors"))
         self.model.to(self.device, self.dtype).eval()
 

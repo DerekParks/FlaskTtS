@@ -10,10 +10,12 @@ import torch
 from misaki import en
 
 from flasktts.config import Config
+from flasktts.tts.homographs import HomographMarkup
 from flasktts.tts.kokorotts import (
     DEFAULT_VOICE,
     PARAGRAPH_PAUSE_SEC,
     SAMPLE_RATE,
+    WARM_UP_TEXT,
     KokoroTTS,
     ModelLock,
     apply_lexicon_overrides,
@@ -181,6 +183,10 @@ def test_annotated_paragraph_reaches_pipeline(tts):
 
 def test_homographs_disabled_without_model_dir(tts):
     assert tts.homographs is None
+
+
+def test_warm_up_runs_the_homograph_model():
+    assert HomographMarkup(["read"]).targets(WARM_UP_TEXT)
 
 
 def test_stream_computes_each_chunk_under_the_model_lock(tts):

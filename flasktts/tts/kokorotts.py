@@ -18,6 +18,7 @@ REPO_ID = "hexgrad/Kokoro-82M"
 SAMPLE_RATE = 24000
 DEFAULT_VOICE = "af_heart"
 PARAGRAPH_PAUSE_SEC = 0.3
+WARM_UP_TEXT = "Ready to read."
 ENGLISH_LANG_CODES = ("a", "b")
 AMERICAN_LANG_CODE = "a"
 
@@ -173,9 +174,9 @@ class KokoroTTS:
             yield audio
 
     def warm_up(self, voices) -> None:
-        """Builds each voice's pipeline and runs it once, so the first real request skips G2P and voice loading."""
+        """Builds each voice's pipeline and runs it once, homograph model included, so the first real request skips loading."""
         for voice in voices:
-            for _ in self.stream("Ready.", voice):
+            for _ in self.stream(WARM_UP_TEXT, voice):
                 pass
 
     def synth_text(
