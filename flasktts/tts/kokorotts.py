@@ -38,11 +38,18 @@ class KokoroTTSHighlander:
 
 
 class KokoroTTS:
-    def __init__(self, output_dir: str, device: Optional[str] = None):
+    def __init__(
+        self,
+        output_dir: str,
+        device: Optional[str] = None,
+        fp16: Optional[bool] = None,
+    ):
         """
         Args:
             output_dir (str): Output directory to save the generated audio files
             device (str, optional): Device to use for inference. Defaults to None for auto-detect.
+            fp16 (bool, optional): Run inference under fp16 autocast. Only applies on CUDA.
+                Defaults to Config.KOKORO_FP16.
         """
 
         if device is None:
@@ -55,6 +62,9 @@ class KokoroTTS:
             else:
                 device = torch.device("cpu")
         self.output_dir = output_dir
+        self.fp16 = (Config.KOKORO_FP16 if fp16 is None else fp16) and (
+            torch.device(device).type == "cuda"
+        )
         self.model = KModel(repo_id=REPO_ID).to(device).eval()
         self.pipelines: Dict[str, KPipeline] = {}
 
@@ -88,16 +98,17 @@ class KokoroTTS:
         pause = np.zeros(int(PARAGRAPH_PAUSE_SEC * SAMPLE_RATE), dtype=np.float32)
 
         segments = []
-        for paragraph in re.split(r"\n+", text.strip()):
-            if not paragraph.strip():
-                continue
-            if segments:
-                segments.append(pause)
-            for result in pipeline(
-                paragraph, voice=voice, speed=speed, split_pattern=None
-            ):
-                if result.audio is not None:
-                    segments.append(result.audio.cpu().numpy())
+        with torch.autocast("cuda", dtype=torch.float16, enabled=self.fp16):
+            for paragraph in re.split(r"\n+", text.strip()):
+                if not paragraph.strip():
+                    continue
+                if segments:
+                    segments.append(pause)
+                for result in pipeline(
+                    paragraph, voice=voice, speed=speed, split_pattern=None
+                ):
+                    if result.audio is not None:
+                        segments.append(result.audio.float().cpu().numpy())
 
         if not segments:
             raise ValueError(f"Kokoro produced no audio for {uuid}")

@@ -29,3 +29,6 @@ class Config:
     # Qwen3 speech rate: >1.0 = faster, <1.0 = slower, 1.0 = unchanged.
     # Applied via pitch-preserving time stretch after generation.
     QWEN3_SPEECH_RATE = float(os.getenv("QWEN3_SPEECH_RATE", 1.0))
+
+    # Kokoro inference under fp16 autocast, CUDA only.
+    KOKORO_FP16 = os.getenv("KOKORO_FP16", "true").lower() == "true"

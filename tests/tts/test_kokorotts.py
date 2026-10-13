@@ -109,3 +109,39 @@ def test_lexicon_overrides_only_on_english_pipelines(tts):
 
     tts.pipelines["a"].g2p.lexicon.golds.update.assert_called_once()
     tts.pipelines["j"].g2p.lexicon.golds.update.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "device, fp16, expected",
+    [("cuda", True, True), ("cuda", False, False), ("cpu", True, False)],
+)
+def test_fp16_only_on_cuda(tmp_path, device, fp16, expected):
+    with patch("flasktts.tts.kokorotts.KModel"):
+        assert KokoroTTS(str(tmp_path), device=device, fp16=fp16).fp16 is expected
+
+
+def test_inference_runs_inside_autocast(tts):
+    tts.fp16 = True
+    states = []
+    autocast = MagicMock()
+    autocast.return_value.__enter__.side_effect = lambda: states.append("enter")
+    autocast.return_value.__exit__.side_effect = lambda *a: states.append("exit")
+    tts._pipeline_for("af_heart").side_effect = lambda text, **k: (
+        states.append("synth") or iter([SimpleNamespace(audio=torch.ones(10))])
+    )
+
+    with patch("flasktts.tts.kokorotts.torch.autocast", autocast):
+        tts.synth_text("1", "job", voice="af_heart")
+
+    assert autocast.call_args.kwargs == {"dtype": torch.float16, "enabled": True}
+    assert states == ["enter", "synth", "exit"]
+
+
+def test_half_precision_audio_written_as_float(tts):
+    tts._pipeline_for("af_heart").side_effect = lambda text, **k: iter(
+        [SimpleNamespace(audio=torch.full((SAMPLES_PER_CHUNK,), 0.25, dtype=torch.float16))]
+    )
+
+    audio, _ = sf.read(tts.synth_text("1", "job", voice="af_heart"))
+
+    np.testing.assert_allclose(audio, 0.25, atol=1e-4)
