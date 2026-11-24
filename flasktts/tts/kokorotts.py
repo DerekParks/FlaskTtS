@@ -22,14 +22,25 @@ WARM_UP_TEXT = "Ready to read."
 ENGLISH_LANG_CODES = ("a", "b")
 AMERICAN_LANG_CODE = "a"
 
-# misaki's lexicon has the biblical name Dives (DYE-veez) for every case of "dives"
 LEXICON_OVERRIDES = {
+    # misaki's lexicon has the biblical name Dives (DYE-veez) for every case of "dives"
     "dives": "dˈIvz",
+}
+
+# Dialect-specific overrides, applied on top of LEXICON_OVERRIDES
+AMERICAN_LEXICON_OVERRIDES = {
+    # misaki has kuh-REN; Americans say CARE-en, rhyming with Sharon and Aaron
+    "karen": "kˈɛɹən",
+}
+BRITISH_LEXICON_OVERRIDES = {
+    # misaki has kuh-REN; Britons say KARR-en, rhyming with Carol
+    "karen": "kˈaɹən",
 }
 
 
 def apply_lexicon_overrides(g2p: en.G2P) -> None:
-    g2p.lexicon.golds.update(en.Lexicon.grow_dictionary(LEXICON_OVERRIDES))
+    dialect = BRITISH_LEXICON_OVERRIDES if g2p.british else AMERICAN_LEXICON_OVERRIDES
+    g2p.lexicon.golds.update(en.Lexicon.grow_dictionary({**LEXICON_OVERRIDES, **dialect}))
 
 
 class ModelLock:

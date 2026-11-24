@@ -110,6 +110,19 @@ def test_dives_pronounced_as_verb(british):
     assert "iz" not in phonemes
 
 
+@pytest.mark.parametrize(
+    "british, expected", [(False, "kˈɛɹən"), (True, "kˈaɹən")]
+)
+def test_karen_stressed_on_first_syllable(british, expected):
+    g2p = en.G2P(trf=False, british=british, fallback=None, unk="")
+    apply_lexicon_overrides(g2p)
+
+    phonemes, _ = g2p("Karen called. Ask karen. KAREN!")
+
+    assert phonemes.count(expected) == 3
+    assert "kəɹˈɛn" not in phonemes
+
+
 def test_lexicon_overrides_only_on_english_pipelines(tts):
     tts.synth_text("1", "job-a", voice="af_heart")
     tts.synth_text("1", "job-j", voice="jf_alpha")
