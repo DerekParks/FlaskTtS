@@ -112,6 +112,29 @@ To run the worker
 huey_consumer.py flasktts.tasks.tasks.huey -w 1
 ```
 
+### Quote detection (not wired in yet)
+
+`flasktts/text/quotes.py` splits text into narration and quote segments, groundwork for
+reading quoted speech in a newsletter in a second voice. `split_quotes(text)` returns
+segments that concatenate back to the input; quotation marks stay in the narration.
+Scare quotes, titles and short terms are not treated as speech. The module docstring
+lists the rules. It is standard library only, so its tests run without the model
+dependencies:
+
+```bash
+uv run --no-project --with pytest python -m pytest tests/text -q --confcutdir tests/text
+```
+
+`--confcutdir` skips `tests/conftest.py`, which imports the Flask app. To score the rules
+against the gold set in `tests/text/quote_cases.jsonl` (precision/recall/F1, per tag, the
+scare-quote false-positive rate, and every failing case), and optionally spot-check
+inbox2pod's `.eml` fixtures:
+
+```bash
+python -m flasktts.text.quote_eval
+python -m flasktts.text.quote_eval --real ~/projects/inbox2pod/tests/fixtures
+```
+
 ## Configuration
 
 The service can be configured through environment variables:

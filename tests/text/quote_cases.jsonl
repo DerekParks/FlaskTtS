@@ -1,0 +1,288 @@
+{"id": "attr-after-governor", "text": "Treasury yields climbed again on Thursday. \"We are not in a hurry to cut,\" the central bank governor said at a press conference.", "quotes": ["We are not in a hurry to cut,"], "tags": ["double_straight", "attribution_after"]}
+{"id": "attr-before-colon-cfo", "text": "The CFO told analysts: \"Our margins will compress before they expand.\"", "quotes": ["Our margins will compress before they expand."], "tags": ["double_straight", "attribution_before"]}
+{"id": "attr-mid-pipeline", "text": "\"The pipeline is full,\" she said, \"but the closing rate is what worries me.\"", "quotes": ["The pipeline is full,", "but the closing rate is what worries me."], "tags": ["double_straight", "attribution_mid"]}
+{"id": "attr-mid-curly-auditor", "text": "“Nobody reads the footnotes,” one auditor wrote in an internal memo, “which is exactly where we put the bad news.”", "quotes": ["Nobody reads the footnotes,", "which is exactly where we put the bad news."], "tags": ["double_curly", "attribution_mid"]}
+{"id": "attr-according-to-filing", "text": "According to the filing, \"the company may not be able to continue as a going concern.\"", "quotes": ["the company may not be able to continue as a going concern."], "tags": ["double_straight", "attribution_before"]}
+{"id": "attr-one-word-no", "text": "\"No,\" said the chief executive when asked whether layoffs were planned.", "quotes": ["No,"], "tags": ["double_straight", "attribution_after", "short_speech"]}
+{"id": "question-reader-asked", "text": "The obvious question, as one reader asked, is \"Why would anyone hold cash at these rates?\"", "quotes": ["Why would anyone hold cash at these rates?"], "tags": ["double_straight", "question"]}
+{"id": "exclaim-buy-the-dip", "text": "\"Buy the dip!\" was the entire text of the post, which got forty thousand likes.", "quotes": ["Buy the dip!"], "tags": ["double_straight", "exclaim", "short_speech"]}
+{"id": "ellipsis-trailing-founder", "text": "The founder trailed off: \"We had the money, and then we didn't, and then...\"", "quotes": ["We had the money, and then we didn't, and then..."], "tags": ["double_straight", "ellipsis", "colon_intro"]}
+{"id": "ellipsis-leading-memo", "text": "The memo continues, \"...and under no circumstances should this be forwarded outside the deal team.\"", "quotes": ["...and under no circumstances should this be forwarded outside the deal team."], "tags": ["double_straight", "ellipsis"]}
+{"id": "footnote-bracket", "text": "The bank described the loss as \"manageable within our existing capital framework.\"[3] Investors were less sure.", "quotes": ["manageable within our existing capital framework."], "tags": ["double_straight", "footnote", "partial"]}
+{"id": "footnote-superscript", "text": "“This is a liquidity problem, not a solvency problem.”² That line did not age well.", "quotes": ["This is a liquidity problem, not a solvency problem."], "tags": ["double_curly", "footnote"]}
+{"id": "footnote-asterisk", "text": "He called the quarter \"the best in the company's history\"* and then lowered guidance.", "quotes": ["the best in the company's history"], "tags": ["double_straight", "footnote", "partial"]}
+{"id": "emoji-inside-quote", "text": "\"Shipping it today 🚀,\" the founder posted, along with a screenshot of the release notes.", "quotes": ["Shipping it today 🚀,"], "tags": ["double_straight", "emoji", "attribution_after"]}
+{"id": "emoji-in-narration", "text": "Big week 📈 for chip stocks. \"Demand is not the constraint, supply is,\" one analyst wrote.", "quotes": ["Demand is not the constraint, supply is,"], "tags": ["double_straight", "emoji", "attribution_after"]}
+{"id": "allcaps-speech-disclaimer", "text": "\"THIS IS NOT FINANCIAL ADVICE,\" the account wrote in every single post.", "quotes": ["THIS IS NOT FINANCIAL ADVICE,"], "tags": ["double_straight", "all_caps", "attribution_after"]}
+{"id": "allcaps-scare-hodl", "text": "Crypto Twitter is back to yelling \"HODL\" at anyone who sells.", "quotes": [], "tags": ["double_straight", "all_caps", "scare"]}
+{"id": "paren-outlook", "text": "The company reiterated its outlook (\"we remain confident in the full-year targets\") despite the miss.", "quotes": ["we remain confident in the full-year targets"], "tags": ["parentheses", "double_straight"]}
+{"id": "paren-whole-sentence", "text": "(“We are evaluating all options,” a spokesperson said.)", "quotes": ["We are evaluating all options,"], "tags": ["parentheses", "double_curly", "attribution_after"]}
+{"id": "paren-scare", "text": "The fund (which describes itself as \"conservative\") lost 30 percent.", "quotes": [], "tags": ["parentheses", "scare"]}
+{"id": "scare-soft-landing", "text": "The so-called \"soft landing\" is starting to look like a landing.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-transitory", "text": "Management keeps using the word \"transitory\" as if repetition makes it true.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-agentic-says", "text": "The startup says its AI is \"agentic,\" whatever that means this week.", "quotes": [], "tags": ["scare", "attribution_trap"]}
+{"id": "scare-meme", "text": "Shares of the \"meme\" retailer rose 40 percent before lunch.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-moats-period", "text": "Every pitch deck this year has a slide about \"moats.\"", "quotes": [], "tags": ["scare"]}
+{"id": "scare-fortress", "text": "The bank's \"fortress balance sheet\" turned out to have a few doors left open.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-adjusted-ebitda-period", "text": "Regulators have opened an inquiry into what the company calls \"community-adjusted EBITDA.\"", "quotes": [], "tags": ["scare"]}
+{"id": "scare-risk-free-yield", "text": "Crypto lenders promised \"risk-free yield.\" You know how that went.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-free-tier", "text": "The \"free\" tier now has a paywall after three prompts.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-modifier-too-big", "text": "Congress is once again debating the \"too big to fail\" banks and what to do about them.", "quotes": [], "tags": ["scare", "modifier"]}
+{"id": "scare-two-terms", "text": "Call it \"higher for longer\" or call it \"stuck,\" the Fed is not moving.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-modifier-possessive", "text": "The firm's \"once in a generation\" opportunity arrives roughly every eighteen months.", "quotes": [], "tags": ["scare", "modifier"]}
+{"id": "scare-uninvestable", "text": "Analysts at the bank now describe the sector as \"uninvestable.\"", "quotes": [], "tags": ["scare"]}
+{"id": "scare-rainmaker", "text": "He is what the industry calls a \"rainmaker.\"", "quotes": [], "tags": ["scare"]}
+{"id": "scare-magnificent", "text": "The \"Magnificent Seven\" carried the index again.", "quotes": [], "tags": ["scare", "title"]}
+{"id": "scare-curly-utility", "text": "The token’s “utility” remains theoretical.", "quotes": [], "tags": ["scare", "double_curly"]}
+{"id": "scare-curly-everything-rally", "text": "Some desks are calling it the “everything rally,” which is a sign of how little is falling.", "quotes": [], "tags": ["scare", "double_curly"]}
+{"id": "scare-vibe-coding", "text": "The product team calls it \"vibe coding\" and the security team calls it a problem.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-modifier-mac", "text": "The deal includes a \"material adverse change\" clause that nobody expected to matter.", "quotes": [], "tags": ["scare", "modifier"]}
+{"id": "scare-sticky", "text": "Prices are \"sticky,\" in economist-speak.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-ai", "text": "There is a lot of talk about \"AI\" in earnings calls this quarter.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-temporary-fee", "text": "A \"temporary\" fee introduced in 2021 is still on every invoice.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-decoupling", "text": "Nobody on the desk believes in \"decoupling\" anymore.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-ai-premium", "text": "The \"AI premium\" in valuations has shrunk by half.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-term-rug-pull", "text": "The term \"rug pull\" entered the vocabulary of retail investors around 2021.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-partial-painful", "text": "She described the restructuring as \"painful but necessary.\"", "quotes": [], "tags": ["scare", "partial"]}
+{"id": "scare-modifier-picks-shovels", "text": "Shares in the \"picks and shovels\" suppliers outperformed the chip designers.", "quotes": [], "tags": ["scare", "modifier"]}
+{"id": "scare-elevated-uncertainty", "text": "Lenders tightened standards, citing \"elevated uncertainty.\"", "quotes": [], "tags": ["scare"]}
+{"id": "scare-single-show-me", "text": "It's a 'show me' story now.", "quotes": [], "tags": ["scare", "single"]}
+{"id": "scare-synergy-says", "text": "Who still says \"synergy\" with a straight face?", "quotes": [], "tags": ["scare", "attribution_trap", "question"]}
+{"id": "scare-noted-headwinds", "text": "The report noted \"headwinds\" in three of its four segments.", "quotes": [], "tags": ["scare", "attribution_trap"]}
+{"id": "scare-said-comfortable", "text": "The bank said it was \"comfortable\" with its exposure.", "quotes": [], "tags": ["scare", "attribution_trap"]}
+{"id": "scare-cautiously-optimistic", "text": "Management said that the outlook remained \"cautiously optimistic.\"", "quotes": [], "tags": ["scare", "attribution_trap"]}
+{"id": "scare-said-buy", "text": "He said \"buy\" and they bought.", "quotes": [], "tags": ["scare", "attribution_trap"]}
+{"id": "scare-new-normal-question", "text": "Is this the \"new normal\"? Probably not.", "quotes": [], "tags": ["scare", "question"]}
+{"id": "scare-corrected-ellipsis", "text": "The stock went up... and up... and then \"corrected.\"", "quotes": [], "tags": ["scare", "ellipsis"]}
+{"id": "scare-fraud-term", "text": "I suppose the technical term is \"fraud,\" but I am not a lawyer.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-partial-two-words", "text": "The chair said the committee is \"prepared to adjust\" if risks emerge.", "quotes": [], "tags": ["scare", "partial", "attribution_trap"]}
+{"id": "scare-single-big-bet", "text": "The investors' 'big bet' on rates was really a bet on the curve.", "quotes": [], "tags": ["scare", "single", "apostrophe"]}
+{"id": "scare-ticker", "text": "Traders piled into \"ZQX\" after the halt lifted.", "quotes": [], "tags": ["scare", "all_caps"]}
+{"id": "scare-header-code", "text": "Set the header to \"Bearer <token>\" and retry the request.", "quotes": [], "tags": ["scare"]}
+{"id": "scare-guillemet-green", "text": "The « green » bond label is doing a lot of work here.", "quotes": [], "tags": ["scare", "guillemet"]}
+{"id": "scare-cheap-talk", "text": "The central bank calls this \"forward guidance,\" and markets call it \"a guess.\"", "quotes": [], "tags": ["scare"]}
+{"id": "scare-curly-agentic-pair", "text": "Half the demos at the conference were “copilots” and the other half were “agents.”", "quotes": [], "tags": ["scare", "double_curly"]}
+{"id": "scare-modifier-buy-now", "text": "The \"buy now, pay later\" lenders are now the ones asking for patience.", "quotes": [], "tags": ["scare", "modifier"]}
+{"id": "scare-hyphen-term", "text": "Investors fled the \"safe-haven\" trade within a week.", "quotes": [], "tags": ["scare"]}
+{"id": "title-section-bond-market", "text": "This week in \"The Bond Market\": yields, spreads, and a surprise from Japan.", "quotes": [], "tags": ["title"]}
+{"id": "title-section-returns", "text": "Our section \"Things Happen\" returns tomorrow.", "quotes": [], "tags": ["title"]}
+{"id": "title-book", "text": "Her new book, \"The Long Squeeze,\" is out next month.", "quotes": [], "tags": ["title"]}
+{"id": "title-podcast-episode", "text": "Listen to the latest episode of \"Margin Calls at Midnight\" wherever you get podcasts.", "quotes": [], "tags": ["title"]}
+{"id": "title-cue-sentence-case", "text": "The paper, titled \"why central banks keep missing their inflation targets,\" has been downloaded twelve thousand times.", "quotes": [], "tags": ["title", "title_cue"]}
+{"id": "title-cue-headlined", "text": "A Substack post headlined \"The end of cheap money is not the end of the world\" made the rounds on trading desks.", "quotes": [], "tags": ["title", "title_cue"]}
+{"id": "title-slogan", "text": "The company's slogan, \"Move Money Faster,\" is printed on every badge.", "quotes": [], "tags": ["title", "title_cue"]}
+{"id": "title-question-headline", "text": "Yesterday we ran \"Is the Bond Rally Over?\" and got a lot of angry email.", "quotes": [], "tags": ["title", "question"]}
+{"id": "title-report-year", "text": "The report is called \"State of the Cloud 2026\" and it is 140 pages long.", "quotes": [], "tags": ["title"]}
+{"id": "title-film", "text": "The fund manager compared the market to \"Groundhog Day\" in his letter.", "quotes": [], "tags": ["title"]}
+{"id": "title-app-name", "text": "The app formerly known as \"Ledgerly Pro\" has rebranded again.", "quotes": [], "tags": ["title"]}
+{"id": "title-tier-name", "text": "The \"Ultra Max\" tier costs $49 a month.", "quotes": [], "tags": ["title"]}
+{"id": "title-chapter", "text": "Chapter three, \"Where the Leverage Hides,\" is the one to read.", "quotes": [], "tags": ["title"]}
+{"id": "title-then-speech", "text": "In \"Money Matters,\" the column's author wrote: \"Never confuse a bull market with brains.\"", "quotes": ["Never confuse a bull market with brains."], "tags": ["title", "attribution_before"]}
+{"id": "title-adage-title-case", "text": "The Wall Street adage “Sell in May and Go Away” failed again this year.", "quotes": [], "tags": ["title", "double_curly"]}
+{"id": "title-rebrand", "text": "The rebrand to \"X Holdings Group\" cost more than the logo.", "quotes": [], "tags": ["title"]}
+{"id": "title-digest-headline-line", "text": "Why \"AI Agents\" Are the New Cloud\nEnterprise buyers are spending, but on what is still unclear.", "quotes": [], "tags": ["title", "digest"]}
+{"id": "title-award", "text": "Rated \"Best Budget Laptop\" by three review sites.", "quotes": [], "tags": ["title", "product"]}
+{"id": "title-button", "text": "Click \"Manage Preferences\" to update your email settings.", "quotes": [], "tags": ["title", "product"]}
+{"id": "title-single-podcast", "text": "Their podcast 'Basis Points' just hit episode 300.", "quotes": [], "tags": ["title", "single"]}
+{"id": "title-single-motto", "text": "The firm's motto, 'Clients first, always,' was quietly dropped from the website.", "quotes": [], "tags": ["title", "single", "title_cue"]}
+{"id": "title-subject-line-caps", "text": "The subject line was \"URGENT: ACTION REQUIRED ON YOUR ACCOUNT\" and it was, of course, spam.", "quotes": [], "tags": ["title", "all_caps", "title_cue"]}
+{"id": "title-conference-talk", "text": "My favorite talk was \"Pricing Power in a Disinflationary World\" on the second day.", "quotes": [], "tags": ["title"]}
+{"id": "title-newsletter-name", "text": "Welcome to the 200th issue of \"The Weekly Spread,\" and thanks for sticking around.", "quotes": [], "tags": ["title"]}
+{"id": "product-code", "text": "Use code \"SPRING25\" at checkout.", "quotes": [], "tags": ["product", "all_caps"]}
+{"id": "product-reply-stop", "text": "Reply \"STOP\" to unsubscribe.", "quotes": [], "tags": ["product", "all_caps"]}
+{"id": "product-pro-plan", "text": "Product update 🎉: the \"Pro\" plan now includes API access.", "quotes": [], "tags": ["product", "emoji", "scare"]}
+{"id": "product-testimonial", "text": "Testimonial: \"I switched from my old bank in ten minutes and never looked back.\" — Jordan, Austin", "quotes": ["I switched from my old bank in ten minutes and never looked back."], "tags": ["product", "colon_intro"]}
+{"id": "product-customer-says", "text": "Our customers love it. \"It cut our close process from ten days to three,\" says a controller at a logistics company.", "quotes": ["It cut our close process from ten days to three,"], "tags": ["product", "attribution_after"]}
+{"id": "measure-monitor", "text": "The new monitor is 32\" and the stand adds another 6\" of height.", "quotes": [], "tags": ["measurement"]}
+{"id": "measure-height", "text": "At 6'2\" he was the tallest person on the trading floor.", "quotes": [], "tags": ["measurement"]}
+{"id": "measure-height-space", "text": "She is 5' 10\" and played college volleyball before joining the desk.", "quotes": [], "tags": ["measurement"]}
+{"id": "measure-pizza", "text": "We ordered a 12\" pizza for the all-hands, which was not enough.", "quotes": [], "tags": ["measurement"]}
+{"id": "measure-then-quote", "text": "The 6'5\" center told reporters, \"I just want to win a ring before I retire.\"", "quotes": ["I just want to win a ring before I retire."], "tags": ["measurement", "attribution_before"]}
+{"id": "measure-and-partial", "text": "The spec sheet lists a 14\" display, and the reviewer wrote that \"the screen alone justifies the price.\"", "quotes": ["the screen alone justifies the price."], "tags": ["measurement", "partial"]}
+{"id": "measure-inside-quote", "text": "The sales rep insisted, \"Nobody buys the 13\" anymore.\"", "quotes": ["Nobody buys the 13\" anymore."], "tags": ["measurement", "attribution_before"]}
+{"id": "measure-arc", "text": "The asteroid passed within 4' 30\" of arc of the predicted position.", "quotes": [], "tags": ["measurement"]}
+{"id": "measure-panel-quote", "text": "His estimate: a 2'x4' panel and \"maybe a week of work if nothing breaks.\"", "quotes": ["maybe a week of work if nothing breaks."], "tags": ["measurement", "partial"]}
+{"id": "measure-primes", "text": "The panel measures 6′ by 4′, and the bezel is 2″ wide.", "quotes": [], "tags": ["measurement"]}
+{"id": "measure-two-sizes", "text": "Choose the 27\" or the 32\" model; the 32\" one is backordered.", "quotes": [], "tags": ["measurement"]}
+{"id": "measure-quote-after-inch", "text": "The 15\" model is gone. \"We could not get the panels,\" a supplier told us.", "quotes": ["We could not get the panels,"], "tags": ["measurement", "attribution_after"]}
+{"id": "apos-contractions", "text": "Don't expect the Fed's minutes to change anyone's mind; they're already priced in.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-rock-n-roll-90s", "text": "It was rock 'n' roll economics in the '90s, and the bond vigilantes loved it.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-tis", "text": "’Tis the season for year-ahead outlooks, every one of them calling for a choppy first half.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-plural-possessive", "text": "The investors' letter asked for a seat on the board, and the founders' response was a polite no.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-curly-80s", "text": "Back in the ‘80s, a 15 percent mortgage rate wasn’t unusual.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-yall", "text": "Y'all aren't ready for what the chip makers' guidance implies.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-goin", "text": "The traders were goin' home early, and the desks' phones went quiet.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-em", "text": "He's got 'em right where he wants 'em, or so the activist's letter claims.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-curly-rock-n-roll", "text": "A little rock ’n’ roll in the ’70s never hurt a balance sheet.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "apos-cause-til", "text": "Nobody sells 'cause nobody wants to wait 'til the next window.", "quotes": [], "tags": ["apostrophe"]}
+{"id": "single-curly-speech", "text": "‘We are not a bank,’ the fintech’s founder insisted, despite holding a banking licence.", "quotes": ["We are not a bank,"], "tags": ["single", "attribution_after"]}
+{"id": "single-straight-colon", "text": "The note was blunt: 'Sell everything that is not nailed down.'", "quotes": ["Sell everything that is not nailed down."], "tags": ["single", "colon_intro"]}
+{"id": "single-scare-synergies", "text": "The 'synergies' never showed up in the income statement.", "quotes": [], "tags": ["single", "scare"]}
+{"id": "single-curly-with-apostrophe", "text": "‘We don’t comment on rumours,’ a spokeswoman said.", "quotes": ["We don’t comment on rumours,"], "tags": ["single", "apostrophe", "attribution_after"]}
+{"id": "single-after-plural-possessive", "text": "The analysts' consensus was clear: 'This is the bottom, or close to it.'", "quotes": ["This is the bottom, or close to it."], "tags": ["single", "apostrophe", "colon_intro"]}
+{"id": "single-closer-after-s", "text": "One trader put it simply: 'Nobody wants to own the banks'.", "quotes": ["Nobody wants to own the banks"], "tags": ["single", "apostrophe", "attribution_before"]}
+{"id": "single-question", "text": "The FAQ answers 'Can I withdraw at any time?' with a paragraph of caveats.", "quotes": ["Can I withdraw at any time?"], "tags": ["single", "question"]}
+{"id": "single-british-mid", "text": "‘The numbers are the numbers,’ the finance director said, ‘and we will not dress them up.’", "quotes": ["The numbers are the numbers,", "and we will not dress them up."], "tags": ["single", "attribution_mid"]}
+{"id": "nested-straight-auditor", "text": "\"When the auditor said 'we need to talk,' I knew the quarter was gone,\" the former CFO recalled.", "quotes": ["When the auditor said 'we need to talk,' I knew the quarter was gone,"], "tags": ["nested", "attribution_after"]}
+{"id": "nested-curly-board", "text": "“The board told me, ‘Fix it or leave,’ so I fixed it,” the CEO said.", "quotes": ["The board told me, ‘Fix it or leave,’ so I fixed it,"], "tags": ["nested", "double_curly", "attribution_after"]}
+{"id": "nested-british-double-inside", "text": "‘The regulator called it “a serious lapse”, and we accept that,’ the bank said.", "quotes": ["The regulator called it “a serious lapse”, and we accept that,"], "tags": ["nested", "single", "attribution_after"]}
+{"id": "nested-scare-inside", "text": "The analyst wrote, \"The company's 'adjusted' numbers are fiction.\"", "quotes": ["The company's 'adjusted' numbers are fiction."], "tags": ["nested", "attribution_before"]}
+{"id": "nested-title-inside", "text": "\"I have read 'The Patient Investor' four times and I still bought the top,\" the reader wrote in.", "quotes": ["I have read 'The Patient Investor' four times and I still bought the top,"], "tags": ["nested", "attribution_after"]}
+{"id": "nested-curly-quote-of-quote", "text": "“My old boss used to say ‘cash is a position,’ and he was right every time,” the allocator said.", "quotes": ["My old boss used to say ‘cash is a position,’ and he was right every time,"], "tags": ["nested", "double_curly"]}
+{"id": "multi-two-straight", "text": "\"The first thing you learn on a credit desk is that nobody calls to tell you good news.\n\n\"The second thing is that the bad news always arrives on a Friday afternoon,\" the trader said.", "quotes": ["The first thing you learn on a credit desk is that nobody calls to tell you good news.", "The second thing is that the bad news always arrives on a Friday afternoon,"], "tags": ["multi_paragraph", "double_straight"]}
+{"id": "multi-three-curly", "text": "“We spent a decade assuming money would be free forever.\n\n“That assumption is now gone, and so are a lot of business models.\n\n“What replaces it is the interesting question.”\n\nThat was the opening of the letter.", "quotes": ["We spent a decade assuming money would be free forever.", "That assumption is now gone, and so are a lot of business models.", "What replaces it is the interesting question."], "tags": ["multi_paragraph", "double_curly"]}
+{"id": "multi-memo-intro", "text": "The founder's memo to staff read, in part:\n\n\"We are cutting the team by a third. This is my fault, not yours.\n\n\"Severance will be four months for everyone, regardless of tenure.\"", "quotes": ["We are cutting the team by a third. This is my fault, not yours.", "Severance will be four months for everyone, regardless of tenure."], "tags": ["multi_paragraph", "double_straight"]}
+{"id": "multi-single-newline", "text": "\"Rates are the gravity of finance, and gravity just got stronger.\n\"Everything priced off cheap money has to reprice,\" the strategist said.", "quotes": ["Rates are the gravity of finance, and gravity just got stronger.", "Everything priced off cheap money has to reprice,"], "tags": ["multi_paragraph", "double_straight"]}
+{"id": "multi-false-no-reopen", "text": "The CEO said \"we will grow forty percent next year and\n\nNobody believed that number, including the CFO.", "quotes": [], "tags": ["multi_paragraph", "unbalanced"]}
+{"id": "multi-chain-never-closes", "text": "\"This first paragraph opens a quote that never closes\n\n\"and the second paragraph reopens it but also never closes\n\nThen narration resumes without any closing mark.", "quotes": [], "tags": ["multi_paragraph", "unbalanced"]}
+{"id": "multi-then-narration-quote", "text": "“Liquidity is a coward. It is never there when you need it.\n\n“And it is always there when you do not,” the old saying on the desk goes.\n\nThe newer saying is shorter: \"Hedge early.\"", "quotes": ["Liquidity is a coward. It is never there when you need it.", "And it is always there when you do not,", "Hedge early."], "tags": ["multi_paragraph", "double_curly", "colon_intro"]}
+{"id": "unbalanced-ticker", "text": "The ticker \"XYZ jumped twelve percent on the news, the biggest move since the IPO.", "quotes": [], "tags": ["unbalanced"]}
+{"id": "unbalanced-stray-closer", "text": "Shares fell 4% after the call.\" Analysts had expected a beat.", "quotes": [], "tags": ["unbalanced"]}
+{"id": "unbalanced-para-then-scare", "text": "\"Unclosed quote at the start of a paragraph that goes on and on.\n\nThe next paragraph is plain narration with a \"short\" term.", "quotes": [], "tags": ["unbalanced", "scare"]}
+{"id": "unbalanced-stray-then-real", "text": "One stray mark \" sits here. Later, the CEO said, \"We will not raise prices this year.\"", "quotes": ["We will not raise prices this year."], "tags": ["unbalanced", "attribution_before"]}
+{"id": "unbalanced-trailing-then-real", "text": "He typed \"\n\nThe next paragraph has a real quote: \"Margins are the story this quarter,\" she wrote.", "quotes": ["Margins are the story this quarter,"], "tags": ["unbalanced", "attribution_after"]}
+{"id": "unbalanced-curly-never-closed", "text": "The memo said “we are fine and then never closed the quote. A later sentence says \"short\".", "quotes": [], "tags": ["unbalanced", "double_curly"]}
+{"id": "unbalanced-odd-count", "text": "The \"first\" and \"second\" and \"third tranche priced tight.", "quotes": [], "tags": ["unbalanced", "scare"]}
+{"id": "unbalanced-spaced-marks", "text": "Weird spacing \" like this \" everywhere in the template.", "quotes": [], "tags": ["unbalanced"]}
+{"id": "unbalanced-doc-stray-opener", "text": "Revenue grew \"strongly across the board.\n\nCosts rose faster. \"We are investing for growth,\" the CFO said.\n\nThe stock fell.", "quotes": ["We are investing for growth,"], "tags": ["unbalanced", "attribution_after"]}
+{"id": "unbalanced-single-stray", "text": "The fund's 'core holdings are mostly utilities, which is a choice.", "quotes": [], "tags": ["unbalanced", "single"]}
+{"id": "block-email-single", "text": "Thanks for the note.\n\n> Can you send the Q3 numbers before Friday?\n\nAttached. The warehouse line moves into Q4.", "quotes": ["Can you send the Q3 numbers before Friday?"], "tags": ["blockquote_email"]}
+{"id": "block-email-two-lines", "text": "> We expect revenue of roughly $40 million\n> for the full year, with margins flat.\n\nThat guidance is lower than last quarter.", "quotes": ["We expect revenue of roughly $40 million", "for the full year, with margins flat."], "tags": ["blockquote_email"]}
+{"id": "block-email-nested", "text": "On Tuesday, Dana wrote:\n> Agreed on the pricing.\n>> Should we hold the launch until March?\n\nLet us hold it.", "quotes": ["Agreed on the pricing.", "Should we hold the launch until March?"], "tags": ["blockquote_email", "nested"]}
+{"id": "block-email-empty-line", "text": "> First point about the deal.\n>\n> Second point about the deal.\n\nNoted.", "quotes": ["First point about the deal.", "Second point about the deal."], "tags": ["blockquote_email"]}
+{"id": "block-email-reply-wrapped", "text": "Dana replied:\n> Sounds good. Let us\n> lock the price on Monday.\n\nGreat.", "quotes": ["Sounds good. Let us", "lock the price on Monday."], "tags": ["blockquote_email"]}
+{"id": "block-email-with-inner-quote", "text": "> The client said \"we need it by Friday\" and hung up.\n\nClassic.", "quotes": ["The client said \"we need it by Friday\" and hung up."], "tags": ["blockquote_email", "nested"]}
+{"id": "block-arrow-not-quote", "text": "Revenue -> margin -> cash flow is the only chain that matters.", "quotes": [], "tags": ["blockquote_email", "negative"]}
+{"id": "block-greater-than-midline", "text": "If inflation > 3% the committee will not cut.", "quotes": [], "tags": ["blockquote_email", "negative"]}
+{"id": "block-indent-prospectus", "text": "The prospectus puts it this way:\n\n    The Company has never been profitable and may never achieve profitability.\n\nThat sentence is doing a lot of work.", "quotes": ["The Company has never been profitable and may never achieve profitability."], "tags": ["blockquote_indent"]}
+{"id": "block-indent-list-not-quote", "text": "Three things to watch:\n    - the jobs report\n    - the auction\n    - the Fed minutes", "quotes": [], "tags": ["blockquote_indent", "negative"]}
+{"id": "block-indent-tab", "text": "From the shareholder letter:\n\n\tWe will keep investing through the downturn, because our customers will still be here after it.\n\nBold.", "quotes": ["We will keep investing through the downturn, because our customers will still be here after it."], "tags": ["blockquote_indent"]}
+{"id": "block-indent-two-lines", "text": "The terms:\n\n    Holders may redeem at par on any quarterly date\n    after the first anniversary of issuance.\n\nThat is unusual.", "quotes": ["Holders may redeem at par on any quarterly date", "after the first anniversary of issuance."], "tags": ["blockquote_indent"]}
+{"id": "block-indent-numbered-list", "text": "Steps:\n    1. Open the account\n    2. Fund it\n    3. Wait", "quotes": [], "tags": ["blockquote_indent", "negative"]}
+{"id": "guillemet-spaced", "text": "The French finance minister was blunt: « We will not bail out the speculators. »", "quotes": ["We will not bail out the speculators."], "tags": ["guillemet", "colon_intro"]}
+{"id": "guillemet-tight", "text": "A reader from Geneva wrote: «Your take on the franc was exactly backwards.»", "quotes": ["Your take on the franc was exactly backwards."], "tags": ["guillemet", "attribution_before"]}
+{"id": "guillemet-attr-after", "text": "«Nous restons prudents,» the chief economist said, which roughly translates to: we are not buying.", "quotes": ["Nous restons prudents,"], "tags": ["guillemet", "attribution_after"]}
+{"id": "dash-paragraph", "text": "— We are not selling the division, and we never were.\n\nThat was the CEO, on a call that lasted nine minutes.", "quotes": ["We are not selling the division, and we never were."], "tags": ["dash_dialogue"]}
+{"id": "dash-with-attribution", "text": "— We will hit the number, — said the CFO, who did not hit the number.", "quotes": ["We will hit the number,"], "tags": ["dash_dialogue"]}
+{"id": "dash-signature", "text": "Thanks for reading.\n\n— Sam", "quotes": [], "tags": ["dash_dialogue", "negative"]}
+{"id": "dash-signature-team", "text": "See you next week.\n\n—The Editors", "quotes": [], "tags": ["dash_dialogue", "negative"]}
+{"id": "dash-midsentence", "text": "The rally — if you can call it that — faded by noon.", "quotes": [], "tags": ["dash_dialogue", "negative"]}
+{"id": "attr-put-it", "text": "As one portfolio manager put it, \"You can be right on the thesis and still get carried out on the timing.\"", "quotes": ["You can be right on the thesis and still get carried out on the timing."], "tags": ["attribution_before"]}
+{"id": "attr-mid-told-me", "text": "\"I would not touch it,\" one hedge fund manager told me, \"not at these multiples, not with this management.\"", "quotes": ["I would not touch it,", "not at these multiples, not with this management."], "tags": ["attribution_mid"]}
+{"id": "short-not-now", "text": "Her reply was short: \"Not now.\"", "quotes": ["Not now."], "tags": ["short_speech", "colon_intro"]}
+{"id": "attr-replied-yes", "text": "Asked about the layoffs, he replied, \"Yes.\"", "quotes": ["Yes."], "tags": ["short_speech", "attribution_before"]}
+{"id": "attr-texted-fine", "text": "\"Fine,\" she texted back.", "quotes": ["Fine,"], "tags": ["short_speech", "attribution_after"]}
+{"id": "attr-asked-why-now", "text": "\"Why now?\" asked one board member.", "quotes": ["Why now?"], "tags": ["short_speech", "question", "attribution_after"]}
+{"id": "attr-transitory-said", "text": "\"Transitory,\" the chairman said in 2021, and he has been reminded of it ever since.", "quotes": ["Transitory,"], "tags": ["short_speech", "attribution_after"]}
+{"id": "attr-mid-em-dash", "text": "\"The thesis was right,\" he wrote — and then, a paragraph later — \"but the position sizing was a disaster.\"", "quotes": ["The thesis was right,", "but the position sizing was a disaster."], "tags": ["attribution_mid"]}
+{"id": "attr-said-name-title", "text": "\"We think the cycle has turned,\" said Priya Raman, chief economist at a mid-sized asset manager.", "quotes": ["We think the cycle has turned,"], "tags": ["attribution_after"]}
+{"id": "attr-according-to-after", "text": "\"Delivery times are improving,\" according to the survey's respondents.", "quotes": ["Delivery times are improving,"], "tags": ["attribution_after"]}
+{"id": "attr-filing-states", "text": "The filing states: \"The Company may be subject to additional enforcement actions.\"", "quotes": ["The Company may be subject to additional enforcement actions."], "tags": ["attribution_before"]}
+{"id": "partial-long-chair", "text": "The chair said the committee was \"not yet confident that inflation is on a sustainable path\" toward target.", "quotes": ["not yet confident that inflation is on a sustainable path"], "tags": ["partial"]}
+{"id": "attr-in-his-words", "text": "In his words, \"this is a buying opportunity for people with long time horizons.\"", "quotes": ["this is a buying opportunity for people with long time horizons."], "tags": ["attribution_before"]}
+{"id": "attr-linkedin", "text": "She wrote on LinkedIn: \"Grateful for the journey. Excited for what comes next.\"", "quotes": ["Grateful for the journey. Excited for what comes next."], "tags": ["attribution_before"]}
+{"id": "attr-tweet-read", "text": "The tweet, since deleted, read: \"Funding secured at a valuation that will surprise you.\"", "quotes": ["Funding secured at a valuation that will surprise you."], "tags": ["attribution_before"]}
+{"id": "attr-absolutely-not", "text": "\"Absolutely not,\" the spokesperson said.", "quotes": ["Absolutely not,"], "tags": ["short_speech", "attribution_after"]}
+{"id": "attr-said-colon-never", "text": "Asked whether the company would raise capital, the CEO said: \"Never.\"", "quotes": ["Never."], "tags": ["short_speech", "attribution_before"]}
+{"id": "attr-mid-maybe", "text": "\"Maybe,\" he wrote back, \"but not this quarter.\"", "quotes": ["Maybe,", "but not this quarter."], "tags": ["short_speech", "attribution_mid"]}
+{"id": "attr-according-to-banker", "text": "According to one banker, \"nobody wants this deal.\"", "quotes": ["nobody wants this deal."], "tags": ["attribution_before"]}
+{"id": "attr-added-obviously", "text": "The CFO added, \"Obviously.\"", "quotes": ["Obviously."], "tags": ["short_speech", "attribution_before"]}
+{"id": "attr-said-sell-everything", "text": "She said \"sell everything\" and they sold.", "quotes": ["sell everything"], "tags": ["short_speech", "attribution_before"]}
+{"id": "attr-every-banker-said", "text": "\"2026 will be the year of the IPO,\" every banker has said for three years running.", "quotes": ["2026 will be the year of the IPO,"], "tags": ["attribution_after"]}
+{"id": "attr-economist-joked", "text": "\"Inflation at 3% is the new 2%,\" the economist joked.", "quotes": ["Inflation at 3% is the new 2%,"], "tags": ["attribution_after"]}
+{"id": "attr-trap-which-said", "text": "He used the word \"transitory,\" which is what everyone said that year.", "quotes": [], "tags": ["scare", "attribution_trap"]}
+{"id": "attr-headline-says", "text": "\"We Are Not a Bank,\" Says Fintech Founder\nRegulators disagree.", "quotes": ["We Are Not a Bank,"], "tags": ["title", "attribution_after", "digest"]}
+{"id": "attr-warned-curly", "text": "“Do not mistake a quiet market for a safe one,” the risk officer warned.", "quotes": ["Do not mistake a quiet market for a safe one,"], "tags": ["double_curly", "attribution_after"]}
+{"id": "attr-asks-before", "text": "The question my editor asks every week: \"Who is the marginal buyer?\"", "quotes": ["Who is the marginal buyer?"], "tags": ["attribution_before", "question"]}
+{"id": "question-is-anyone-using", "text": "\"Is anyone actually using this?\" is the question every enterprise buyer should ask.", "quotes": ["Is anyone actually using this?"], "tags": ["question"]}
+{"id": "exclaim-ship-it", "text": "The crowd at the conference chanted \"Ship it!\" until the CEO walked back on stage.", "quotes": ["Ship it!"], "tags": ["exclaim", "short_speech"]}
+{"id": "exclaim-curly-long", "text": "Then the CEO said the quiet part: “We would have done this deal at any price!”", "quotes": ["We would have done this deal at any price!"], "tags": ["exclaim", "double_curly", "colon_intro"]}
+{"id": "ellipsis-mid-spokesman", "text": "\"We are... evaluating our options,\" the spokesman said after a long pause.", "quotes": ["We are... evaluating our options,"], "tags": ["ellipsis", "attribution_after"]}
+{"id": "ellipsis-leading-unicode", "text": "The quote everyone remembers: \"…and that is why we will never do a stock buyback.\"", "quotes": ["…and that is why we will never do a stock buyback."], "tags": ["ellipsis", "colon_intro"]}
+{"id": "emoji-phishing", "text": "🚨 \"We have detected unusual activity on your account,\" the email said. It was a phishing test.", "quotes": ["We have detected unusual activity on your account,"], "tags": ["emoji", "attribution_after"]}
+{"id": "emoji-only-reply", "text": "\"🙃\" was the CEO's only reply on the earnings thread.", "quotes": [], "tags": ["emoji", "negative"]}
+{"id": "emoji-lol-reply", "text": "The founder's reply: \"lol no 💀\"", "quotes": ["lol no 💀"], "tags": ["emoji", "short_speech", "colon_intro"]}
+{"id": "allcaps-so-back", "text": "\"WE ARE SO BACK,\" the founder posted after the funding round closed.", "quotes": ["WE ARE SO BACK,"], "tags": ["all_caps", "attribution_after"]}
+{"id": "allcaps-narration-scare", "text": "BREAKING: the \"DEAL\" is off, and the stock is halted.", "quotes": [], "tags": ["all_caps", "scare"]}
+{"id": "colon-verdict", "text": "The verdict from the sell side: \"Overweight, with conviction.\"", "quotes": ["Overweight, with conviction."], "tags": ["colon_intro"]}
+{"id": "colon-bottom-line", "text": "Bottom line: \"Rates stay high until something breaks.\"", "quotes": ["Rates stay high until something breaks."], "tags": ["colon_intro"]}
+{"id": "colon-interview-qa", "text": "Q: \"What keeps you up at night?\"\nA: \"Duration risk, mostly.\"", "quotes": ["What keeps you up at night?", "Duration risk, mostly."], "tags": ["colon_intro", "question"]}
+{"id": "digest-funding", "text": "Payments startup raises $40M\nThe company says it will use the money to expand into Brazil. \"Instant payments are the biggest opportunity we have ever seen,\" its founder said.", "quotes": ["Instant payments are the biggest opportunity we have ever seen,"], "tags": ["digest", "attribution_after"]}
+{"id": "longform-press-release", "text": "Here is the press release: \"The Company is pleased to announce that it has completed its previously announced transformation.\" Pleased! Completed! Previously announced!", "quotes": ["The Company is pleased to announce that it has completed its previously announced transformation."], "tags": ["longform", "colon_intro"]}
+{"id": "longform-hypothetical-bank", "text": "You could imagine a different structure, where the bank says to the client, \"Look, we will lend you the money, but we would like to see the collateral first.\" That is a normal thing for a bank to say.", "quotes": ["Look, we will lend you the money, but we would like to see the collateral first."], "tags": ["longform", "attribution_before"]}
+{"id": "longform-legal-standard", "text": "The legal standard is something like \"would a reasonable investor consider this important,\" which is a fun standard to apply to a tweet.", "quotes": ["would a reasonable investor consider this important,"], "tags": ["longform", "partial"]}
+{"id": "longform-should-we-do-it", "text": "If you are a hedge fund, the answer to \"should we do the trade\" is usually \"yes.\"", "quotes": ["should we do the trade"], "tags": ["longform", "partial", "scare"]}
+{"id": "longform-adage", "text": "The old rule that you should \"never fight the central bank\" has had a rough year.", "quotes": ["never fight the central bank"], "tags": ["longform", "partial"]}
+{"id": "longform-mixed", "text": "Bank earnings were fine. \"Credit quality remains strong,\" one CFO said, while another described consumer health as \"resilient.\" The market shrugged; the \"soft landing\" crowd declared victory again.", "quotes": ["Credit quality remains strong,"], "tags": ["longform", "scare", "attribution_after"]}
+{"id": "longform-fed-put", "text": "The \"Fed put\" is dead, the strategist argued. \"There is no cavalry coming this time,\" she wrote in a note to clients, \"and portfolios should be positioned for that.\"", "quotes": ["There is no cavalry coming this time,", "and portfolios should be positioned for that."], "tags": ["longform", "scare", "attribution_mid"]}
+{"id": "longform-paren-footnote", "text": "The CEO (asked, again, about the \"strategic review\") said only: \"We have nothing to announce today.\"[2]", "quotes": ["We have nothing to announce today."], "tags": ["longform", "parentheses", "footnote", "attribution_before"]}
+{"id": "longform-double-dash", "text": "\"Profits are a lagging indicator; cash flow is the truth\"--that was the first line of the deck.", "quotes": ["Profits are a lagging indicator; cash flow is the truth"], "tags": ["longform", "double_straight"]}
+{"id": "longform-tariff-name-commas", "text": "\"The tariff math does not work for anyone,\" Ana Ruiz, a trade economist, said in an interview.", "quotes": ["The tariff math does not work for anyone,"], "tags": ["longform", "attribution_after"]}
+{"id": "longform-hard-wrap", "text": "The chair was careful: \"We are not\nannouncing anything today, and\nmarkets should not read into it.\"", "quotes": ["We are not\nannouncing anything today, and\nmarkets should not read into it."], "tags": ["longform", "wrapped"]}
+{"id": "longform-wrapped-scare", "text": "Analysts were quick to call the quarter a\n\"reset\" and move on to the guidance.", "quotes": [], "tags": ["wrapped", "scare"]}
+{"id": "longform-two-speakers", "text": "\"We are buyers here,\" said one allocator. \"We are sellers,\" said another. The spread between them is the market.", "quotes": ["We are buyers here,", "We are sellers,"], "tags": ["longform", "attribution_after"]}
+{"id": "longform-quote-in-quote-scare", "text": "A reader writes: \"Why do you keep putting 'innovation' in scare quotes?\" Because it keeps earning them.", "quotes": ["Why do you keep putting 'innovation' in scare quotes?"], "tags": ["longform", "nested", "attribution_before"]}
+{"id": "negative-empty", "text": "", "quotes": [], "tags": ["negative"]}
+{"id": "negative-plain", "text": "No quotes at all in this paragraph about bond yields and swap spreads.", "quotes": [], "tags": ["negative"]}
+{"id": "negative-empty-quotes", "text": "The field was left blank: \"\".", "quotes": [], "tags": ["negative", "unbalanced"]}
+{"id": "negative-multipara-plain", "text": "Yields rose.\n\nSpreads tightened.\n\nThe dollar was flat, and nobody cared.", "quotes": [], "tags": ["negative"]}
+{"id": "b2-likes-to-say", "text": "\"Pricing is the product,\" the founder likes to say.", "quotes": ["Pricing is the product,"], "tags": ["attribution_after", "longform"]}
+{"id": "b2-mid-says-one-investor", "text": "\"Patience,\" says one investor, \"is underrated.\"", "quotes": ["Patience,", "is underrated."], "tags": ["attribution_mid", "short_speech"]}
+{"id": "b2-question-lead-in", "text": "The CEO's response? \"We'll see.\"", "quotes": ["We'll see."], "tags": ["short_speech", "question"]}
+{"id": "b2-two-short-terms-sentence", "text": "\"Higher for longer\" has become \"higher forever\" in some corners of the market.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-colon-inside-quote", "text": "\"Step one: raise prices. Step two: there is no step two,\" the analyst joked.", "quotes": ["Step one: raise prices. Step two: there is no step two,"], "tags": ["attribution_after"]}
+{"id": "b2-misused-right-curly-opener", "text": "”We are done here,” the chair said.", "quotes": ["We are done here,"], "tags": ["double_curly", "attribution_after"]}
+{"id": "b2-single-straight-british", "text": "'Inflation is a choice,' the shadow chancellor argued.", "quotes": ["Inflation is a choice,"], "tags": ["single", "attribution_after"]}
+{"id": "b2-single-with-plural-possessive", "text": "'The banks' problem is deposits, not loans,' one regulator said.", "quotes": ["The banks' problem is deposits, not loans,"], "tags": ["single", "apostrophe", "attribution_after"]}
+{"id": "b2-interrupted", "text": "\"I think—\" the CEO began, before his lawyer cut in.", "quotes": ["I think—"], "tags": ["short_speech"]}
+{"id": "b2-list-of-terms", "text": "Words of the year on earnings calls: \"efficiency,\" \"discipline,\" and \"agentic.\"", "quotes": [], "tags": ["scare", "colon_intro"]}
+{"id": "b2-title-case-slang", "text": "\"Trust Me, Bro\" is not a risk model.", "quotes": [], "tags": ["title", "scare"]}
+{"id": "b2-chatbot-replied", "text": "The chatbot replied, \"I'm sorry, I can't help with that.\"", "quotes": ["I'm sorry, I can't help with that."], "tags": ["attribution_before"]}
+{"id": "b2-ratings-terms", "text": "\"Buy\" ratings now outnumber \"sell\" ratings ten to one.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-rating-codes", "text": "The agency cut the rating to \"Baa3\" from \"Baa2.\"", "quotes": [], "tags": ["scare"]}
+{"id": "b2-highly-speculative", "text": "The agency now calls the debt \"highly speculative.\"", "quotes": [], "tags": ["scare"]}
+{"id": "b2-strategist-told-clients", "text": "The 10-year yield hit 5%. \"That is the number that matters,\" a strategist told clients in a note on Monday morning.", "quotes": ["That is the number that matters,"], "tags": ["attribution_after"]}
+{"id": "b2-officials-have-said", "text": "\"We are watching the data,\" officials have said repeatedly.", "quotes": ["We are watching the data,"], "tags": ["attribution_after"]}
+{"id": "b2-insisted-then-second", "text": "\"It's not a bubble,\" he insisted. \"It's a paradigm shift.\"", "quotes": ["It's not a bubble,", "It's a paradigm shift."], "tags": ["attribution_after"]}
+{"id": "b2-okay-alone", "text": "\"Okay.\" That was the whole email.", "quotes": ["Okay."], "tags": ["short_speech"]}
+{"id": "b2-single-scare-with-elisions", "text": "The fund's managers' bonuses weren't cut, but the '24 vintage's returns were 'disappointing,' per the letter.", "quotes": [], "tags": ["single", "apostrophe", "scare"]}
+{"id": "b2-single-with-08", "text": "He said, 'Look, I'm not here to argue about the '08 crisis.'", "quotes": ["Look, I'm not here to argue about the '08 crisis."], "tags": ["single", "apostrophe", "attribution_before"]}
+{"id": "b2-double-in-double-straight", "text": "\"The memo literally said \"do not panic,\" which made everyone panic,\" a former employee said.", "quotes": ["The memo literally said \"do not panic,\" which made everyone panic,"], "tags": ["nested", "unbalanced"]}
+{"id": "b2-headline-sentence-case", "text": "My favorite headline this week was \"Local man discovers bond market exists.\"", "quotes": [], "tags": ["title"]}
+{"id": "b2-note-titled", "text": "In a note titled \"Sell the Rip,\" strategists argued that the bounce was a gift.", "quotes": [], "tags": ["title", "title_cue"]}
+{"id": "b2-known-as-act", "text": "The bill, known as the \"Digital Asset Clarity Act,\" passed the committee.", "quotes": [], "tags": ["title"]}
+{"id": "b2-wrap-uppercase-next-line", "text": "\"We will keep buying\nBitcoin no matter the price,\" the company said.", "quotes": ["We will keep buying\nBitcoin no matter the price,"], "tags": ["wrapped", "attribution_after"]}
+{"id": "b2-block-with-quoted-line", "text": "> \"The best time to raise is when you don't need to.\" — a VC, probably\n\nTrue.", "quotes": ["\"The best time to raise is when you don't need to.\" — a VC, probably"], "tags": ["blockquote_email", "nested"]}
+{"id": "b2-code-command", "text": "Run \"pip install --upgrade ledgerkit\" to get the fix.", "quotes": [], "tags": ["scare", "code"]}
+{"id": "b2-search-query", "text": "Search for \"best high-yield savings account 2026\" and you will find forty affiliate sites.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-bot-answer-colon", "text": "The bot's answer: \"As of my last update, rates were 5.25%.\"", "quotes": ["As of my last update, rates were 5.25%."], "tags": ["colon_intro"]}
+{"id": "b2-email-began", "text": "\"Good morning,\" the email began, \"your account has been flagged.\"", "quotes": ["Good morning,", "your account has been flagged."], "tags": ["attribution_mid"]}
+{"id": "b2-question-exclaim", "text": "\"Who approved this?!\" the head of risk wrote in all caps.", "quotes": ["Who approved this?!"], "tags": ["question", "exclaim", "attribution_after"]}
+{"id": "b2-allcaps-no", "text": "The memo just said \"NO.\"", "quotes": ["NO."], "tags": ["all_caps", "short_speech"]}
+{"id": "b2-paren-told-me", "text": "(As one trader told me, \"nobody got fired for buying Treasuries.\")", "quotes": ["nobody got fired for buying Treasuries."], "tags": ["parentheses", "attribution_before"]}
+{"id": "b2-emoji-only-scare", "text": "The \"🚀\" emoji is doing a lot of work in that press release.", "quotes": [], "tags": ["emoji", "scare"]}
+{"id": "b2-ellipsis-only", "text": "\"...\" was his answer.", "quotes": [], "tags": ["ellipsis", "negative"]}
+{"id": "b2-lets-go", "text": "\"Let's go!!!\" — the entire Slack message from the CEO.", "quotes": ["Let's go!!!"], "tags": ["exclaim", "short_speech"]}
+{"id": "b2-title-year-of", "text": "Welcome to the \"Year of Efficiency\" sequel.", "quotes": [], "tags": ["title", "scare"]}
+{"id": "b2-feet-and-single-scare", "text": "The 6' ceiling made the 'open plan office' feel like a submarine.", "quotes": [], "tags": ["measurement", "single", "scare"]}
+{"id": "b2-account-wrote", "text": "One account wrote: \"rates are going to zero, mark my words\"", "quotes": ["rates are going to zero, mark my words"], "tags": ["attribution_before"]}
+{"id": "b2-url-inside", "text": "The FAQ says: \"See example.com/terms for details.\"", "quotes": ["See example.com/terms for details."], "tags": ["attribution_before"]}
+{"id": "b2-phrase-of-quarter", "text": "The phrase of the quarter was \"we are seeing some softness in the consumer.\"", "quotes": ["we are seeing some softness in the consumer."], "tags": ["partial"]}
+{"id": "b2-attributed-partial-mid", "text": "It was, the CEO said, \"a tough quarter.\"", "quotes": ["a tough quarter."], "tags": ["partial", "attribution_before"]}
+{"id": "b2-conceded-partial", "text": "Profits were \"a little light,\" the company conceded.", "quotes": ["a little light,"], "tags": ["partial", "attribution_after"]}
+{"id": "b2-product-name-long", "text": "The bank calls its new product a \"savings account with benefits.\"", "quotes": [], "tags": ["scare", "title"]}
+{"id": "b2-recession-question", "text": "\"Recession?\" Not yet.", "quotes": [], "tags": ["scare", "question"]}
+{"id": "b2-sahm-rule", "text": "The so-called \"Sahm rule\" has triggered again.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-resilient-count", "text": "Analysts used the word \"resilient\" 14 times on the call.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-when-not-if", "text": "It is a \"when, not if\" situation.", "quotes": [], "tags": ["scare", "modifier"]}
+{"id": "b2-un-inversion", "text": "The yield curve's \"un-inversion\" is usually the scary part.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-ai-native", "text": "Their \"AI-native\" pitch convinced three investors and zero customers.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-boring-utilities", "text": "Even the \"boring\" utilities rallied.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-multi-guillemet", "text": "« We will defend the currency.\n\n« We have the reserves to do it, » the governor said.", "quotes": ["We will defend the currency.", "We have the reserves to do it,"], "tags": ["guillemet", "multi_paragraph"]}
+{"id": "b2-curly-quote-after-colon-lowercase", "text": "Her advice to founders: “raise less, spend less, sleep more.”", "quotes": ["raise less, spend less, sleep more."], "tags": ["double_curly", "colon_intro"]}
+{"id": "b2-attr-before-no-comma-long", "text": "Then he says \"we are profitable on a unit basis\" and the room goes quiet.", "quotes": ["we are profitable on a unit basis"], "tags": ["attribution_before", "partial"]}
+{"id": "b2-quote-then-paren-attr", "text": "\"Volatility is the price of admission\" (a line every adviser has used) still holds.", "quotes": ["Volatility is the price of admission"], "tags": ["parentheses"]}
+{"id": "b2-short-quote-sentence-start", "text": "Her answer was immediate. \"Absolutely.\"", "quotes": ["Absolutely."], "tags": ["short_speech"]}
+{"id": "b2-scare-start-of-sentence", "text": "\"Efficiency\" is the word every CFO used this quarter.", "quotes": [], "tags": ["scare"]}
+{"id": "b2-straight-single-in-curly", "text": "“We call it the ‘boring is beautiful’ strategy,” the manager said.", "quotes": ["We call it the ‘boring is beautiful’ strategy,"], "tags": ["nested", "double_curly"]}
+{"id": "b2-tldr-headline-with-quote", "text": "Fed chair: \"No rush\" on cuts\nOfficials signaled patience on Wednesday.", "quotes": ["No rush"], "tags": ["digest", "colon_intro", "short_speech"]}
